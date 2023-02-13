@@ -7,6 +7,7 @@ The goal of this project is to create Future Cop compatible assets from scratch.
 
 ## Rules
  * The obvious rule of this project is that there are no Future Cop Assets from the original game allowed. **Not even the demos of any version are allowed.**
- * In addition to the above rule, no assets from other intellectual properties are not allowed.
+ * To be extra careful, screenshots containing Future Cop Assets is also not allowed.
  * The files placed there should not have any data from original Future Cop assets.
+ * In addition to the above rule, no assets from other intellectual properties are not allowed.
  * Sorry but AI generated art from Stable Diffusion or something similar is not allowed. It is mostly because I do not know if Stable Diffusion infringes on copyright or not. I am likely to change this rule in the future. Fractals like the Mandelbrot Set are fine.
