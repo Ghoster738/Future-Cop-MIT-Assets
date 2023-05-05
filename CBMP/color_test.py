@@ -1,7 +1,7 @@
 from PIL import Image # 9.4.0-2
 import CBMPBuilder
 
-def createTestSubImage( blue_level : int, semi_transparent : bool ):
+def createTestSubImage( blue_level : int, semi_transparent : bool, flip_horz : bool, flip_vertical : bool ):
     size = width, height = 32, 32
 
     half = 255
@@ -17,6 +17,11 @@ def createTestSubImage( blue_level : int, semi_transparent : bool ):
 
             pixel = image.putpixel( position, (min(next_x * 8, 255), min(next_y * 8, 255), min(blue_level * 8, 255), half ) )
 
+    if flip_horz == True:
+        image = image.transpose( Image.Transpose.FLIP_LEFT_RIGHT )
+    if flip_vertical == True:
+        image = image.transpose( Image.Transpose.FLIP_TOP_BOTTOM )
+
     return image
 
 def embbedImage( primary_image : Image, source_image : Image, x : int, y : int ):
@@ -29,18 +34,25 @@ def createTestImage():
 
     image = Image.new( "RGBA", size )
 
-    for i in range(0, 8):
-        embbedImage( image, createTestSubImage( i * 4 + 0, False ),   0, i * 32 )
-        embbedImage( image, createTestSubImage( i * 4 + 0,  True ),  32, i * 32 )
+    for i in range(0, 4):
+        embbedImage( image, createTestSubImage( i * 8 + 0, False, False, (i % 2) == 1 ),   0, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 1, False, True,  (i % 2) == 1 ),  32, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 2, False, False, (i % 2) == 1 ),  64, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 3, False, True,  (i % 2) == 1 ),  96, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 4, False, False, (i % 2) == 1 ), 128, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 5, False, True,  (i % 2) == 1 ), 160, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 6, False, False, (i % 2) == 1 ), 192, i * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 7, False, True,  (i % 2) == 1 ), 224, i * 32 )
 
-        embbedImage( image, createTestSubImage( i * 4 + 1, False ),  64, i * 32 )
-        embbedImage( image, createTestSubImage( i * 4 + 1,  True ),  96, i * 32 )
-
-        embbedImage( image, createTestSubImage( i * 4 + 2, False ), 128, i * 32 )
-        embbedImage( image, createTestSubImage( i * 4 + 2,  True ), 160, i * 32 )
-
-        embbedImage( image, createTestSubImage( i * 4 + 3, False ), 192, i * 32 )
-        embbedImage( image, createTestSubImage( i * 4 + 3,  True ), 224, i * 32 )
+    for i in range(0, 4):
+        embbedImage( image, createTestSubImage( i * 8 + 0, True, False, (i % 2) == 1 ),   0, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 1, True, True,  (i % 2) == 1 ),  32, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 2, True, False, (i % 2) == 1 ),  64, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 3, True, True,  (i % 2) == 1 ),  96, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 4, True, False, (i % 2) == 1 ), 128, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 5, True, True,  (i % 2) == 1 ), 160, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 6, True, False, (i % 2) == 1 ), 192, (i + 4) * 32 )
+        embbedImage( image, createTestSubImage( i * 8 + 7, True, True,  (i % 2) == 1 ), 224, (i + 4) * 32 )
 
     return image
 
