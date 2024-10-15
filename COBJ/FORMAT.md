@@ -2,10 +2,10 @@
 
 * [Order of Chunks](#order-of-chunks)
 
-## Chunks
+## Chunk Lookup
 In Alphabetal Order.
-* [**AmnD** Animation Tracks]()
-* [**3DAL** Star Vertex Color Animations]()
+* [**AmnD** Animation Tracks](#amnd)
+* [**3DAL** Star Vertex Color Animations](#3dal)
 * [**3DBB** Bounding Boxes]()
 * [**3DHS** Bone Positions (Unused by My Code)]()
 * [**3DHY** Bone Information & Hierarchy]()
@@ -41,3 +41,10 @@ Right after the 3DBB from "All OBJs" we have this.
 * 3DMI
 * 3DHS
 * AmnD
+
+## Chunk Descriptions
+These are the chunk descriptions.
+
+### AmnD
+
+### 3DAL
