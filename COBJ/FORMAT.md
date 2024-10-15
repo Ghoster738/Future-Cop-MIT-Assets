@@ -11,10 +11,13 @@ In Alphabetal Order.
 * [**3DHY** Bone Information & Hierarchy]()
 * [**3DMI** Bone Positions & Rotations]()
 * [**3DRF** Vertex Buffer Identifier List]()
-* [**3DRL** Length Vertex Buffer]()
+* [**3DRL** Lengths Vertex Buffer]()
 * [**3DTA** Texture Coordinate Animation Chunk]()
 * [**3DTL** Texture/Vertex Colors Polygon Infos]()
 * [**3DQL** Primitive Data]()
+* [**4DGI** Header]()
+* [**4DVL** Positions Vertex Buffer]()
+* [**4DNL** Normals Vertex Buffer]()
 
 ## Order of Chunks
 ### All COBJs
