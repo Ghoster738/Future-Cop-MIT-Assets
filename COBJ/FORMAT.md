@@ -2,6 +2,20 @@
 
 * [Order of Chunks](#order-of-chunks)
 
+## Chunks
+In Alphabetal Order.
+* [**AmnD** Animation Tracks]()
+* [**3DAL** Star Vertex Color Animations]()
+* [**3DBB** Bounding Boxes]()
+* [**3DHS** Bone Positions (Unused by My Code)]()
+* [**3DHY** Bone Information & Hierarchy]()
+* [**3DMI** Bone Positions & Rotations]()
+* [**3DRF** Vertex Buffer Identifier List]()
+* [**3DRL** Length Vertex Buffer]()
+* [**3DTA** Texture Coordinate Animation Chunk]()
+* [**3DTL** Texture/Vertex Colors Polygon Infos]()
+* [**3DQL** Primitive Data]()
+
 ## Order of Chunks
 ### All COBJs
 * 4DGI
