@@ -84,8 +84,27 @@ TODO
 TODO
 
 ### 4DGI
-TODO
-
+This is the header chunk. This chunk determines what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
+#### Data
+```c
+// Tighly packed struct. No padding
+struct chunk_4dgi {
+  uint32_t chunk_id; // In Windows 4DGI in Little Endian is IGD4
+  uint32_t tag_size; // Size of whole chunk.
+  uint16_t num_frames; // If the number of frames is other than one then it is an animated COBJ.
+  uint8_t  id; // 0x01 for Windows; 0x10 for Macintosh.
+  uint8_t  bitfield; // TODO
+  uint32_t zeros[3]; // Always Zeros
+  uint32_t one_0; // Always one.
+  uint32_t two_0; // Always two.
+  uint32_t one_1; // Always one.
+  uint32_t one_2; // Always one.
+  uint32_t three_0; // Always three.
+  uint8_t position_indexes[4]; // If there is no position data then 0xFF gets filled in each of them.
+  uint32_t four_0; // Always four.
+  uint32_t five_0; // Always five.
+};
+```
 ### 4DVL
 TODO
 
