@@ -1,8 +1,10 @@
 # COBJ Format
 
+* [Table of Chunks](#table-of-chunks)
 * [Order of Chunks](#order-of-chunks)
+* [Chunk Descriptions](#chunk-descriptions)
 
-## Chunk Lookup
+## Table of Chunks
 In Alphabetal Order.
 * [**AmnD** Animation Tracks](#amnd)
 * [**3DAL** Star Vertex Color Animations](#3dal)
@@ -46,5 +48,43 @@ Right after the 3DBB from "All OBJs" we have this.
 These are the chunk descriptions.
 
 ### AmnD
+TODO
 
 ### 3DAL
+TODO
+
+### 3DBB
+TODO
+
+### 3DHS
+TODO
+
+### 3DHY
+TODO
+
+### 3DMI
+TODO
+
+### 3DRF
+TODO
+
+### 3DRL
+TODO
+
+### 3DTA
+TODO
+
+### 3DTL
+TODO
+
+### 3DQL
+TODO
+
+### 4DGI
+TODO
+
+### 4DVL
+TODO
+
+### 4DNL
+TODO
