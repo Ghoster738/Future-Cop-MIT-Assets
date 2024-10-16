@@ -2,7 +2,7 @@
 
 * [Table of Chunks](#table-of-chunks)
 * [Order of Chunks](#order-of-chunks)
-* [Chunk Descriptions](#chunk-descriptions)
+* [Chunk Descriptions](#chunk-descriptions) Note: All structs in this document are tightly packed for readability.
 
 ## Table of Chunks
 In Alphabetal Order.
@@ -85,15 +85,15 @@ TODO
 
 ### 4DGI
 This is the header chunk. This chunk determines what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
+
 #### Data
 ```c
-// Tighly packed struct. No padding
 struct chunk_4dgi {
   uint32_t chunk_id; // In Windows 4DGI in Little Endian is IGD4
   uint32_t tag_size; // Size of whole chunk.
   uint16_t num_frames; // If the number of frames is other than one then it is an animated COBJ.
   uint8_t  id; // 0x01 for Windows; 0x10 for Macintosh.
-  uint8_t  bitfield; // TODO
+  uint8_t  bitfield; // See bitfield for more info.
   uint32_t zeros[3]; // Always Zeros
   uint32_t one_0; // Always one.
   uint32_t two_0; // Always two.
@@ -105,6 +105,21 @@ struct chunk_4dgi {
   uint32_t five_0; // Always five.
 };
 ```
+
+#### Bitfield
+This is the bitfield that the chunk_4dgi stores.
+```
+win/ps1 8 bitfield: art0,y0s0
+mac     8 bitfield: 0s0y,0tra
+
+0 = Unused.
+a = Animated. 0 for static COBJ. 1 for Skin or Morph-Target COBJ.
+r = Reflections. 1 if you want the "reflections" for the COBJ model. Warning: If this value is set to 0 and you use "reflection" polygons then you might crash Future Cop.
+t = Semi-transparent reflections. 1 if you want all the reflections to be partially transparent. 0 if you want all the reflections to be transparent. You have to pick one or the other.
+y = This bit is always on. Purpose unknown.
+s = Skinned. 1 for skinned animation. 0 for either static or morph-target animations.
+```
+
 ### 4DVL
 TODO
 
