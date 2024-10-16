@@ -89,15 +89,15 @@ struct chunk_3dta_header {
 The second part is the face_override_info_3dta structs.
 ```c
 struct face_override_info_3dta {
-  uint8_t number_of_frames;
+  uint8_t number_of_frames; // The number of frames the animation uses.
   uint8_t zero_0; // Always zero.
   uint8_t one; // Always one.
   uint8_t unknown_bitfield; // Unknown bitfield. It must have bit 0x01 present for it to be correctly to be interpreted.
 
-  uint16_t frame_duration; 
+  uint16_t frame_duration; // The duration of a single frame. Multiple it by UNITS_TO_SECONDS or 0.001652018 to get a single frame time.
   uint16_t zero_1; // Always zero.
 
-  uint32_t uv_data_offset; // The offset from the last 
+  uint32_t uv_data_offset; // The offset from the last face_override_info_3dta entry in bytes.
   uint32_t offset_to_3DTL_uv; // Offset to 3DTL UV data. Subtract them by 4 to get the complete 3DQL entry offset.
 };
 ```
