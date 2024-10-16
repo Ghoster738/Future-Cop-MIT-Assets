@@ -78,18 +78,51 @@ TODO
 TODO
 
 ### 3DTL
-TODO
+This chunk holds information on vertex colors and textures that the primitives of [3DQL](#3dql) could select through offsets.
+
+#### Data
+The first part is the header.
+```c
+struct chunk_3dtl_header {
+  uint32_t chunk_id; // Windows/PS1 LTD3. Macintosh 3DTL
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t one; // Always one.
+};
+```
+Once the header is read there are these data entrys. **They have variable sizes of either 4 bytes or 16 bytes. Read them in sequence and store there offset right after the 3dtl_header struct.**
+```c
+struct entry_3dtl_color {
+  uint8_t opcode; // If 1 then entry_3dtl_texture is not in this entry_3dtl_color struct. 2 and 3 and entry_3dtl_texture follows the entry
+  uint8_t red;
+  uint8_t green;
+  uint8_t blue;
+  struct entry_3dtl_texture;
+};
+```
+```c
+struct entry_3dtl_texture {
+  struct vector_2_byte texture_coordinates[4];
+  uint32_t cbmp_id;
+};
+```
+This struct describes the uv data.
+```c
+struct vector_2_byte {
+  uint8_t x;
+  uint8_t y;
+};
+```
 
 ### 3DQL
 TODO
 
 ### 4DGI
-This is the header chunk. This chunk determines what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
+This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
 
 #### Data
 ```c
 struct chunk_4dgi {
-  uint32_t chunk_id; // In Windows 4DGI in Little Endian is IGD4
+  uint32_t chunk_id; // Windows/PS1 IGD4. Macintosh 4DGI
   uint32_t tag_size; // Size of whole chunk.
   uint16_t num_frames; // If the number of frames is other than one then it is an animated COBJ.
   uint8_t  id; // 0x01 for Windows; 0x10 for Macintosh.
