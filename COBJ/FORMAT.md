@@ -75,10 +75,42 @@ TODO
 TODO
 
 ### 3DTA
-TODO
+This holds information that holds texture coordinate animation that overrides [3DTL](#3dtl) data.
+
+#### Data
+The first part is the header.
+```c
+struct chunk_3dta_header {
+  uint32_t chunk_id; // Windows/PS1 ATD3. Macintosh 3DTA
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t number_of_face_overrides; // The number of face_override_info_3dta structs that would follow after chunk_3dta_header.
+};
+```
+The second part is the face_override_info_3dta structs.
+```c
+struct face_override_info_3dta {
+  uint8_t number_of_frames;
+  uint8_t zero_0; // Always zero.
+  uint8_t one; // Always one.
+  uint8_t unknown_bitfield; // Unknown bitfield. It must have bit 0x01 present for it to be correctly to be interpreted.
+
+  uint16_t frame_duration; 
+  uint16_t zero_1; // Always zero.
+
+  uint32_t uv_data_offset; // The offset from the last 
+  uint32_t offset_to_3DTL_uv; // Offset to 3DTL UV data. Subtract them by 4 to get the complete 3DQL entry offset.
+};
+```
+The rest of this chunk are vector_2_byte structs.
+```c
+struct vector_2_byte {
+  uint8_t x;
+  uint8_t y;
+};
+```
 
 ### 3DTL
-This chunk holds information on vertex colors and textures that the primitives of [3DQL](#3dql) could select through offsets.
+This chunk holds information on vertex colors and textures that the primitives of [3DQL](#3dql) could select through offsets. Please see [3DTA](#3dta) for details on UV data animations.
 
 #### Data
 The first part is the header.
@@ -89,7 +121,7 @@ struct chunk_3dtl_header {
   uint32_t one; // Always one.
 };
 ```
-Once the header is read there are these data entrys. **They have variable sizes of either 4 bytes or 16 bytes. Read them in sequence and store there offset right after the 3dtl_header struct.**
+After the header these are the rest of the data entries. **They have variable sizes of either 4 bytes or 16 bytes. Read them in sequence and store there offset right after the 3dtl_header struct.**
 ```c
 struct entry_3dtl_color {
   uint8_t opcode; // If 1 then entry_3dtl_texture is not in this entry_3dtl_color struct. 2 and 3 and entry_3dtl_texture follows the entry
