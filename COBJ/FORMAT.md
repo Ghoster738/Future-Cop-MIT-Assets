@@ -147,9 +147,9 @@ This holds the primitives which can be stars, triangles, quadrilaterals, billboa
 These structs are used for the primitives that will be read.
 ```c
 enum vertex_color_mode {
-    NON = 0,
-    MONOCHROME = 1,
-    FULL = 2
+    NON        = 0,
+    MONOCHROME = 1, // Warning: I am not sure that this is actually a thing.
+    FULL       = 2
 };
 ```
 ```c
@@ -161,11 +161,11 @@ enum visability_mode {
 ```
 ```c
 enum primitive_type {
-    STAR           = 0,
-    TRIANGLE       = 3,
-    QUAD           = 4,
-    BILLBOARD      = 5,
-    LINE           = 7
+    STAR          = 0,
+    TRIANGLE      = 3,
+    QUADRILATERAL = 4,
+    BILLBOARD     = 5,
+    LINE          = 7
 };
 ```
 
@@ -204,10 +204,10 @@ u = Unused bitfield. Guess.
 Opcode[1]
 ```
 win/ps1 8 bitfield: ruuu,ufff
-mac     8 bitfield: fffu,uuur
+mac     8 bitfield: pppu,uuur
 
 u = Unused bitfield. Guess.
-f = face type
+p = primitive type
 r = "reflections" One if you want reflections on the primitive.
 ```
 
@@ -233,6 +233,14 @@ Warning: The knowedge on materials is probably incomplete. I might have made mis
 | 1111     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
 
 #### Primitives
+The primitive data from the Opcode[1] bitfield. This is how the bytes from the primitive_3dql struct be written. It also shows which data these datas are held.
+| Primitive Type | Number | Vertex Index 0   | Vertex Index 1   | Vertex Index 2   | Vertex Index 3   | Normal Index 0 | Normal Index 1 | Normal Index 2 | Normal Index 3 |
+| -------------- | :----: | :--------------: | :--------------: | :--------------: | :--------------: | :------------: | :------------: | :------------: | :------------: |
+| STAR           | 0      | Position Index   | Red              | Green            | Blue             | Length Index   | 0              | 0              | 0              |
+| TRIANGLE       | 3      | Position Index 1 | Position Index 2 | Position Index 3 | 0                | Normal Index 1 | Normal Index 2 | Normal Index 3 | 0              |
+| QUADRILATERAL  | 4      | Position Index 1 | Position Index 2 | Position Index 3 | Position Index 4 | Normal Index 1 | Normal Index 2 | Normal Index 3 | Normal Index 4 |
+| BILLBOARD      | 5      | Position Index   | 0xff             | Length Index     | 0xff             | 0              | 0              | 0              | 0              |
+| LINE           | 7      | Position Index 1 | Position Index 2 | Length Index 1   | Length Index 2   | 0              | 0              | 0              | 0              |
 
 ### 4DGI
 This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
