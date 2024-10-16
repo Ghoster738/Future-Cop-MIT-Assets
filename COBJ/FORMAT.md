@@ -182,12 +182,35 @@ struct chunk_3dql {
 The rest of this chunk holds these entries.
 ```c
 struct primitive_3dql {
-  uint8_t opcodes[2];
-  uint16_t face_type_offset;
-  uint8_t vertex_indexes[4];
-  uint8_t normal_indexes[4];
+  uint8_t opcodes[2]; // See Opcodes Decoding sub-section for details.
+  uint16_t face_type_offset; // An offset to the 3DTL entry that this primitive uses.
+  uint8_t vertex_indexes[4]; // See Primitives sub-section on how to decode this.
+  uint8_t normal_indexes[4]; // See Primitives sub-section on how to decode this.
 };
 ```
+
+#### Opcodes Decoding
+Opcodes handles what the primitive_types, visability_mode, vertex_color_mode structs. In addition, it could even tell the primitive not to use textures at all. It also could use what seems to be [gouraud shading](https://en.wikipedia.org/wiki/Gouraud_shading).
+Opcode[0]
+```
+win/ps1/max 8 bitfield: tmmm,muuu
+
+t = texture enabled.
+m = materials bitfield
+u = Unused bitfield. Guess.
+```
+
+Opcode[1]
+```
+win/ps1 8 bitfield: ruuu,ufff
+mac     8 bitfield: fffu,uuur
+
+u = Unused bitfield. Guess.
+f = face type
+r = "reflections" One if you want reflections on the primitive.
+```
+
+#### Primitives
 
 ### 4DGI
 This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
