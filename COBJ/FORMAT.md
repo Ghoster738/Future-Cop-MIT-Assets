@@ -102,7 +102,7 @@ struct face_override_info_3dta {
   uint8_t one; // Always one.
   uint8_t unknown_bitfield; // Unknown bitfield. It must have bit 0x01 present for it to be correctly to be interpreted.
 
-  uint16_t frame_duration; // The duration of a single frame. Multiple it by UNITS_TO_SECONDS or 0.001652018 to get a single frame time.
+  uint16_t frame_duration; // The duration of a single frame. Multiply it by UNITS_TO_SECONDS or 0.001652018 to get the frame time of a single frame.
   uint16_t zero_1; // Always zero.
 
   uint32_t uv_data_offset; // The offset from the last face_override_info_3dta entry in bytes.
@@ -141,7 +141,53 @@ struct entry_3dtl_texture {
 ```
 
 ### 3DQL
-TODO
+This holds the primitives which can be stars, triangles, quadrilaterals, billboards and lines.
+
+#### Data Descriptions
+These structs are used for the primitives that will be read.
+```c
+enum vertex_color_mode {
+    NON = 0,
+    MONOCHROME = 1,
+    FULL = 2
+};
+```
+```c
+enum visability_mode {
+    OPAQUE   = 0,
+    ADDITION = 1,
+    MIX      = 2
+};
+```
+```c
+enum primitive_type {
+    STAR           = 0,
+    TRIANGLE       = 3,
+    QUAD           = 4,
+    BILLBOARD      = 5,
+    LINE           = 7
+};
+```
+
+#### Data
+The first part of the chunk holds this data.
+```c
+struct chunk_3dql {
+  uint32_t chunk_id; // Windows/PS1 LQD3. Macintosh 3DQL
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t one_0; // Always one.
+  uint32_t number_of_primitives; // The number of primitives stored within this chunk.
+};
+```
+The rest of this chunk holds these entries.
+```c
+struct primitive_3dql {
+  uint8_t opcodes[2];
+  uint16_t face_type_offset;
+  uint8_t vertex_indexes[4];
+  uint8_t normal_indexes[4];
+};
+```
 
 ### 4DGI
 This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
