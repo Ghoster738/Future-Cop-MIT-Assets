@@ -191,6 +191,7 @@ struct primitive_3dql {
 
 #### Opcodes Decoding
 Opcodes handles what the primitive_types, visability_mode, vertex_color_mode structs. In addition, it could even tell the primitive not to use textures at all. It also could use what seems to be [gouraud shading](https://en.wikipedia.org/wiki/Gouraud_shading).
+
 Opcode[0]
 ```
 win/ps1/max 8 bitfield: tmmm,muuu
@@ -209,6 +210,27 @@ u = Unused bitfield. Guess.
 f = face type
 r = "reflections" One if you want reflections on the primitive.
 ```
+
+#### Material Bitfield Decoding
+Warning: The knowedge on materials is probably incomplete. I might have made mistakes somewhere.
+| Material | Gouraud Shading | Vertex Color | Visability Mode |
+| -------: | :-------------: | :----------: | :-------------: |
+| 0000     | FALSE           | NONE         | OPAQUE          |
+| 0001     | FALSE           | NONE         | MIX             |
+| 0010     | FALSE           | MONOCHROME   | OPAQUE          |
+| 0011     | FALSE           | NONE         | MIX             |
+| 0100     | TRUE            | NONE         | OPAQUE          |
+| 0101     | TRUE            | NONE         | MIX             |
+| 0110     | TRUE            | FULL         | OPAQUE          |
+| 0111     | TRUE            | FULL         | MIX             |
+| 1000     | TRUE            | NONE         | OPAQUE          |
+| 1001     | TRUE            | NONE         | MIX             |
+| 1010     | TRUE            | FULL         | OPAQUE          |
+| 1011     | TRUE            | FULL         | OPAQUE          |
+| 1100     | FALSE           | FULL         | ADDITION        |
+| 1101     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
+| 1110     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
+| 1111     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
 
 #### Primitives
 
