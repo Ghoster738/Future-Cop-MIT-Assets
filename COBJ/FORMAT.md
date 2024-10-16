@@ -2,7 +2,7 @@
 
 * [Table of Chunks](#table-of-chunks)
 * [Order of Chunks](#order-of-chunks)
-* [Chunk Descriptions](#chunk-descriptions) Note: All structs in this document are tightly packed for readability.
+* [Chunk Descriptions](#chunk-descriptions)
 
 ## Table of Chunks
 In Alphabetal Order.
@@ -48,7 +48,15 @@ If the CObj has skin animation then AmnD comes right after 3DHS. If the CObj is 
 * [AmnD](#amnd)
 
 ## Chunk Descriptions
-These are the chunk descriptions.
+These are the chunk descriptions. All structs in this document are tightly packed for readability.
+
+Structs used throughout this section.
+```c
+struct vector_2_byte {
+  uint8_t x;
+  uint8_t y;
+};
+```
 
 ### AmnD
 TODO
@@ -102,12 +110,6 @@ struct face_override_info_3dta {
 };
 ```
 The rest of this chunk are vector_2_byte structs.
-```c
-struct vector_2_byte {
-  uint8_t x;
-  uint8_t y;
-};
-```
 
 ### 3DTL
 This chunk holds information on vertex colors and textures that the primitives of [3DQL](#3dql) could select through offsets. Please see [3DTA](#3dta) for details on UV data animations.
@@ -135,13 +137,6 @@ struct entry_3dtl_color {
 struct entry_3dtl_texture {
   struct vector_2_byte texture_coordinates[4];
   uint32_t cbmp_id;
-};
-```
-This struct describes the uv data.
-```c
-struct vector_2_byte {
-  uint8_t x;
-  uint8_t y;
 };
 ```
 
