@@ -155,7 +155,30 @@ let 3drf_ids[i] be the ID that is used for the vertex buffer.
 Please remember that there are three 3DRF's and the three or more 4DVL, 4DNL, and 3DRL chunks.
 
 ### 3DRL
-TODO
+This vertex buffer chunk contains normal data. It is referenced by [3DRF](#3drf) by ```id```.
+
+#### Data
+The first part of the chunk holds this data.
+```c
+struct chunk_3drl {
+  uint32_t chunk_id; // Windows/PS1 LND4. Macintosh 4DNL
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t id; // As referenced by a 3DRF frame.
+  uint32_t amount_of_lengths;
+};
+```
+
+The rest of this chunk holds these entries.
+```c
+uint16_t fixed_point_lengths[amount_of_lengths];
+```
+
+#### Converting from Fixed-Point to floating point.
+```c
+const float FIXED_POINT_UNIT = 1.0 / 512.0;
+
+float floating_point = fixed_point * FIXED_POINT_UNIT;
+```
 
 ### 3DTA
 This holds information that holds texture coordinate animation that overrides [3DTL](#3dtl) data.
@@ -395,7 +418,7 @@ struct chunk_4dvl {
   uint32_t chunk_id; // Windows/PS1 LVD4. Macintosh 4DVL
   uint32_t tag_size; // Size of whole chunk.
   uint32_t id; // As referenced by a 3DRF frame.
-  uint32_t amount_of_vertices;
+  uint32_t amount_of_positions;
 };
 ```
 
@@ -403,9 +426,9 @@ The rest of this chunk holds these entries.
 ```c
 struct vertex_buffer {
   uint16_t fixed_point_x;
-  uint32_t fixed_point_y;
-  uint32_t fixed_point_z;
-  uint32_t unused_data;
+  uint16_t fixed_point_y;
+  uint16_t fixed_point_z;
+  uint16_t unused_data;
 };
 ```
 
@@ -417,4 +440,32 @@ float floating_point = fixed_point * FIXED_POINT_UNIT;
 ```
 
 ### 4DNL
-TODO
+This vertex buffer chunk contains normal data. It is referenced by [3DRF](#3drf) by ```id```.
+
+#### Data
+The first part of the chunk holds this data.
+```c
+struct chunk_4dnl {
+  uint32_t chunk_id; // Windows/PS1 LND4. Macintosh 4DNL
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t id; // As referenced by a 3DRF frame.
+  uint32_t amount_of_normals;
+};
+```
+
+The rest of this chunk holds these entries.
+```c
+struct normal_buffer {
+  uint16_t fixed_point_x;
+  uint16_t fixed_point_y;
+  uint16_t fixed_point_z;
+  uint16_t unused_data;
+};
+```
+
+#### Converting from Fixed-Point to floating point.
+```c
+const float FIXED_NORMAL_UNIT = 1.0 / 4096.0;
+
+float floating_point = fixed_point * FIXED_NORMAL_UNIT;
+```
