@@ -6,7 +6,7 @@
 
 ## Table of Chunks
 In Alphabetal Order.
-* [**AmnD** Animation Tracks](#amnd)
+* [**AnmD** Animation Tracks](#anmd)
 * [**3DAL** Star Vertex Color Animations](#3dal)
 * [**3DBB** Bounding Boxes](#3dbb)
 * [**3DHS** Bone Positions (Unused by My Code)](#3dhs)
@@ -45,7 +45,7 @@ Right after the 3DBB from "All OBJs" we have this.
 
 ### Skinned and Morph-Target COBJs
 If the CObj has skin animation then AmnD comes right after 3DHS. If the CObj is a morph target then it is before the 3DBB chunk.
-* [AmnD](#amnd)
+* [AnmD](#anmd)
 
 ## Chunk Descriptions
 These are the chunk descriptions. All structs in this document are tightly packed for readability.
@@ -58,8 +58,34 @@ struct vector_2_byte {
 };
 ```
 
-### AmnD
-TODO
+### AnmD
+I do not know much about this chunk. However, it contains the animation track data.
+
+#### Data
+The first thing that is read is this chunk.
+```c
+struct chunk_anmd_header {
+  uint32_t chunk_id; // Windows/PS1 DmnA. Macintosh AnmD
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t one; // Always one.
+};
+```
+
+The rest of the chunk has.
+```c
+struct animation_track {
+  uint8_t unk_8_0;
+  uint8_t un_speed;
+  uint8_t unk_8_1;
+  uint8_t un_skip_frame; // Wild guess.
+  uint16_t from_frame;
+  uint16_t to_frame;
+  uint8_t unk_8_2;
+  uint8_t unk_8_3;
+  uint16_t unk_16;
+  uint32_t unk_32;
+};
+```
 
 ### 3DAL
 This handles vertex color animations for stars. Note: This overrides the star color stored in 3DQL.
