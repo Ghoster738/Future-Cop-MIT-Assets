@@ -9,7 +9,7 @@ In Alphabetal Order.
 * [**AnmD** Animation Tracks](#anmd)
 * [**3DAL** Star Vertex Color Animations](#3dal)
 * [**3DBB** Bounding Boxes](#3dbb)
-* [**3DHS** Bone Positions (Unused by My Code)](#3dhs)
+* [**3DHS** Bone Positions](#3dhs)
 * [**3DHY** Bone Information & Hierarchy](#3dhy)
 * [**3DMI** Bone Positions & Rotations](#3dmi)
 * [**3DRF** Vertex Buffer Identifier List](#3drf)
