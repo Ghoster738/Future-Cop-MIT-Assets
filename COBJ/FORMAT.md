@@ -263,13 +263,16 @@ struct bone {
 ```
 
 #### Determining the Bone Hierarcy
-This is a diagram showing how the bone data could be determined. The game probably determines the 
+The current bone will connect with a "bellow" bone with a parent_amount value one less of the current bone.
+
+
+This is a diagram showing how the skeleton information can be built.
 ```
 I = Bone index
 P = Bone parent_amount
 
 I     : P
-Bone 0: 0      0                 Initial Bone
+Bone 0: 0      0                 Initial Bone. It does not have any parents.
               /|\
                |
 Bone 1: 1      *-- 1             Bone 1's parent is Bone 0 since Bone 0 has a parent_amount of zero.
@@ -287,7 +290,7 @@ Bone 4: 2          *-- 2         Bone 4's parent is Bone 3 since Bone 3 has a pa
 Bone 5: 3          |   *-- 3     Bone 5's parent is Bone 4 since Bone 4 has a parent_amount of two.
                    |
                    |
-Bone 6: 2          *-- 2         Bone 6's parent is Bone 2 since Bone 2 has a parent_amount of two.
+Bone 6: 2          *-- 2         Bone 6's parent is Bone 3 since Bone 3 has a parent_amount of one.
 ```
 
 #### Decoding opcode for position and rotation data.
