@@ -268,6 +268,11 @@ A billboard primitive uses ```struct primitive_3dql```'s ```face_type_offset``` 
 
 The primitive uses position index to place it. Also the length index is used to determine the billboard size.
 
+#### Line Primitive
+A line primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the [face type](#3dtl) to obtain the uv, and texture if present. It also could potentially have color data.
+
+A line primitive uses two position indexes to determine where the line begins and ends or ends and begins. The two length indexes are used to determine the size of the beginning and end.
+
 ### 4DGI
 This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
 
