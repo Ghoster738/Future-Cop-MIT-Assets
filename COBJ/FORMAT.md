@@ -252,14 +252,21 @@ The star primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to 
 The length index is used to determine the radius of the star.
 
 #### Triangle Primitive
-A triangle primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the face type to obtain the uv, texture and maybe color info.
+A triangle primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the [face type](#3dtl) to obtain the uv, and texture if present. It also could potentially have color data.
 
 Also, it uses three position indexes and three normal indexes as shown on the [Primitives](#primitives) Table.
 
 #### Quadrilateral Primitive
-A quadrilateral primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the face type to obtain the uv, texture and maybe color info.
+A quadrilateral primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the [face type](#3dtl) to obtain the uv, and texture if present. It also could potentially have color data.
 
 Also, it uses four position indexes and four normal indexes as shown on the [Primitives](#primitives) Table.
+
+#### Billboard Primitive
+A billboard primitive always faces the camera. There is no x-axis or y-axis locking.
+
+A billboard primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the [face type](#3dtl) to obtain the uv, and texture if present. It also could potentially have color data.
+
+The primitive uses position index to place it. Also the length index is used to determine the billboard size.
 
 ### 4DGI
 This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
