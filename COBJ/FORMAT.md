@@ -108,7 +108,9 @@ void loop(float deltaSecond) {
 ```
 
 ### 3DBB
-This holds bounding boxes that the model uses. For static models there are only one frame of bounding box data. For animated models they have multiple frames of bounding box data.
+This holds bounding boxes that the model uses. For static models, there are only one frame of bounding box data. For animated models, they have multiple frames of bounding box data.
+
+At least one bounding box that spans all the 4DVL points is in this chunk for every model.
 
 #### Data
 The first thing that is read is this chunk.
