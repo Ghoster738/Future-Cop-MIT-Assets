@@ -194,7 +194,7 @@ Opcodes handles what the primitive_types, visability_mode, vertex_color_mode str
 
 Opcode[0]
 ```
-win/ps1/max 8 bitfield: tmmm,muuu
+win/ps1/mac 8 bitfield: tmmm,muuu
 
 t = texture enabled.
 m = materials bitfield
@@ -241,6 +241,25 @@ The primitive data from the Opcode[1] bitfield. This is how the bytes from the p
 | QUADRILATERAL  | 4      | Position Index 1 | Position Index 2 | Position Index 3 | Position Index 4 | Normal Index 1 | Normal Index 2 | Normal Index 3 | Normal Index 4 |
 | BILLBOARD      | 5      | Position Index   | 0xff             | Length Index     | 0xff             | 0              | 0              | 0              | 0              |
 | LINE           | 7      | Position Index 1 | Position Index 2 | Length Index 1   | Length Index 2   | 0              | 0              | 0              | 0              |
+
+#### Star Primitive
+The star primitive comprises of a few triangles forming a circle. All the vertices in the circle should have the same color value. The edges of the circle should have its transparency value to zero while the center should have the transparency set to opaque.
+
+The star primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to determine how much triangles this primitive would use. Its usual value range is 4, 8 and 12
+
+```vertex_indexes``` first index is used to get the position index offset. The rest are used for colors.
+
+The length index is used to determine the radius of the star.
+
+#### Triangle Primitive
+A triangle primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the face type to obtain the uv, texture and maybe color info.
+
+Also, it uses three position indexes and three normal indexes as shown on the [Primitives](#primitives) Table.
+
+#### Quadrilateral Primitive
+A quadrilateral primitive uses ```struct primitive_3dql```'s ```face_type_offset``` to get the face type to obtain the uv, texture and maybe color info.
+
+Also, it uses four position indexes and four normal indexes as shown on the [Primitives](#primitives) Table.
 
 ### 4DGI
 This is the first chunk that is read. This chunk can be used to query what type of COBJ resource being static, morph-target animation or skinned animations. It also determines if the model has "reflections" and whether it is semi-transparent or not.
