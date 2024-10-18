@@ -62,7 +62,50 @@ struct vector_2_byte {
 TODO
 
 ### 3DAL
-TODO
+This handles vertex color animations for stars. Note: This overrides the star color stored in 3DQL.
+
+#### Data
+The first thing that is read is this chunk.
+```c
+struct chunk_3dal_header {
+  uint32_t chunk_id; // Windows/PS1 LAD3. Macintosh 3DAL
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t count; // This holds how many star_animation structs are in this chunk. Note: Only a count of one had been observed. It could be that this is only a version number!
+};
+```
+
+The rest of the chunk comprises of these star animation structs.
+```c
+struct star_animation {
+  uint8_t face_index; // 3DQL index to primative type star
+  uint8_t speed_factor; // Please see the 
+  uint8_t red_0;
+  uint8_t green_0;
+  uint8_t blue_0;
+  uint8_t red_1;
+  uint8_t green_1;
+  uint8_t blue_1;
+};
+```
+
+#### How does it work
+```c
+float speed_rate;
+float time = -1.0f;
+
+void init() {
+  speed_rate = 2.0f * (0.0757594 * star_animation.speed_factor + 0.0520309);
+}
+
+void loop(float deltaSecond) {
+  time += speed_rate * deltaSecond;
+  
+  if(time >= 1.0f)
+    time -= 2.0f;
+
+  color = math_mix(color_option_0, color_option_1, math_abs(time));
+}
+```
 
 ### 3DBB
 TODO
