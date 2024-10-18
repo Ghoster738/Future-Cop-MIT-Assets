@@ -262,7 +262,33 @@ struct bone {
   int16_t const_rotation_z;
 ```
 
-#### Decoding the Parents
+#### Determining the Bone Hierarcy
+This is a diagram showing how the bone data could be determined. The game probably determines the 
+```
+I = Bone index
+P = Bone parent_amount
+
+I     : P
+Bone 0: 0      0                 Initial Bone
+              /|\
+               |
+Bone 1: 1      *-- 1             Bone 1's parent is Bone 0 since Bone 0 has a parent_amount of zero.
+               |  /|\
+               |   |
+Bone 2: 2      |   *-- 2         Bone 2's parent is Bone 1 since Bone 1 has a parent_amount of one.
+               |
+               |
+Bone 3: 1      *-- 1             Bone 3's parent is Bone 0 since Bone 0 has a parent_amount of zero.
+                  /|\
+                   |
+Bone 4: 2          *-- 2         Bone 4's parent is Bone 3 since Bone 3 has a parent_amount of one.
+                   |  /|\
+                   |   |
+Bone 5: 3          |   *-- 3     Bone 5's parent is Bone 4 since Bone 4 has a parent_amount of two.
+                   |
+                   |
+Bone 6: 2          *-- 2         Bone 6's parent is Bone 2 since Bone 2 has a parent_amount of two.
+```
 
 #### Decoding opcode for position and rotation data.
 To save space, the developers of this Model format.
