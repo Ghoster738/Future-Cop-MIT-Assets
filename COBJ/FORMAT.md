@@ -229,7 +229,50 @@ child_positions[2][1] = (-9, -4, -5)
 Convert all position units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
 
 ### 3DHY
-TODO
+This holds the skeleton information for skinned animation.
+
+#### Data
+The first part that is read is this chunk.
+```c
+struct chunk_3dhy {
+  uint32_t chunk_id; // Windows/PS1 YHD4. Macintosh 3DHY
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t one; // Always 1.
+};
+```
+
+The rest are these entries.
+```c
+struct bone {
+  uint8_t parent_amount; // There is an algorithm to determine the bone parents.
+  uint8_t normal_start; // Where in the 4DNL data to read.
+  uint8_t normal_stride;
+  uint8_t vertex_start; // Where in the 4DVL data to read.
+  uint8_t vertex_stride;
+  uint8_t un_byte0;
+  uint8_t un_byte1;
+  uint8_t opcode; // This opcode is VERY IMPORTANT.
+
+  // These are constants to be used if 3DMI does not hold the data.
+  int16_t position_x;
+  int16_t position_y;
+  int16_t position_z;
+  int16_t rotation_x;
+  int16_t rotation_y;
+  int16_t rotation_z;
+```
+
+#### Decoding the Parents
+
+#### Decoding opcode for position and rotation data.
+
+#### Converting from Fixed-Point to floating point.
+Convert all position units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
+
+Convert all rotation units using this factor.
+```c
+const float ANGLE_UNIT = PI / 2048.0;
+```
 
 ### 3DMI
 TODO
