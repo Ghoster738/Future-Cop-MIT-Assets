@@ -386,7 +386,35 @@ s = Skinned. 1 for skinned animation. 0 for either static or morph-target animat
 ```
 
 ### 4DVL
-TODO
+This vertex buffer chunk contains position data. It is referenced by [3DRF](#3drf) by ```id```.
+
+#### Data
+The first part of the chunk holds this data.
+```c
+struct chunk_4dvl {
+  uint32_t chunk_id; // Windows/PS1 LVD4. Macintosh 4DVL
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t id; // As referenced by a 3DRF frame.
+  uint32_t amount_of_vertices;
+};
+```
+
+The rest of this chunk holds these entries.
+```c
+struct vertex_buffer {
+  uint16_t fixed_point_x;
+  uint32_t fixed_point_y;
+  uint32_t fixed_point_z;
+  uint32_t unused_data;
+};
+```
+
+#### Converting from Fixed-Point to floating point.
+```c
+const float FIXED_POINT_UNIT = 1.0 / 512.0;
+
+float floating_point = fixed_point * FIXED_POINT_UNIT;
+```
 
 ### 4DNL
 TODO
