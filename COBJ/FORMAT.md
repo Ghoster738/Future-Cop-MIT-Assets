@@ -136,7 +136,7 @@ void loop(float deltaSecond) {
 ### 3DBB
 This holds bounding boxes that the model uses. For static models, there are only one frame of bounding box data. For animated models, they have multiple frames of bounding box data.
 
-At least one bounding box that spans all the 4DVL points is in this chunk for every model.
+At least one bounding box that spans all the 4DVL points is in this chunk for every model. It is the first bounding box in the given frame.
 
 #### Data
 The first thing that is read is this chunk.
@@ -185,8 +185,48 @@ bounding_boxes[1][1] // Box 1 frame 1
 bounding_boxes[1][2] // Box 1 frame 2
 ```
 
+#### Converting from Fixed-Point to floating point.
+Convert all bounding box units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
+
 ### 3DHS
-TODO
+This chunk probably holds child positions for the skinned system. It probably overrides [4DGI](#4dgi) position_indexes array.
+
+#### Data
+The first part that is read is this chunk.
+```c
+struct chunk_3dhs {
+  uint32_t chunk_id; // Windows/PS1 SHD4. Macintosh 3DHS
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t position_per_frame_amount;
+  uint32_t total_positions_in_chunk;
+};
+```
+
+The rest are these entries. See [4DVL](#4dvl) to convert this into floating point.
+```c
+struct vertex_buffer {
+  int16_t fixed_point_x;
+  int16_t fixed_point_y;
+  int16_t fixed_point_z;
+  int16_t unused_data;
+};
+```
+
+Frame data is read like this. Unlike [3DBB](#3dbb) they are stored like this.
+```
+struct vertex_buffer child_positions[total_frames][position_per_frame_amount]
+
+// For example, let total_frames be 3 and position_per_frame_amount be 2.
+child_positions[0][0] = (3, 4, 5)
+child_positions[0][1] = (-3, -4, -5)
+child_positions[1][0] = (7, 4, 5)
+child_positions[1][1] = (-7, -4, -5)
+child_positions[2][0] = (9, 4, 5)
+child_positions[2][1] = (-9, -4, -5)
+```
+
+#### Converting from Fixed-Point to floating point.
+Convert all position units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
 
 ### 3DHY
 TODO
@@ -500,10 +540,10 @@ struct chunk_4dvl {
 The rest of this chunk holds these entries.
 ```c
 struct vertex_buffer {
-  uint16_t fixed_point_x;
-  uint16_t fixed_point_y;
-  uint16_t fixed_point_z;
-  uint16_t unused_data;
+  int16_t fixed_point_x;
+  int16_t fixed_point_y;
+  int16_t fixed_point_z;
+  int16_t unused_data;
 };
 ```
 
@@ -531,10 +571,10 @@ struct chunk_4dnl {
 The rest of this chunk holds these entries.
 ```c
 struct normal_buffer {
-  uint16_t fixed_point_x;
-  uint16_t fixed_point_y;
-  uint16_t fixed_point_z;
-  uint16_t unused_data;
+  int16_t fixed_point_x;
+  int16_t fixed_point_y;
+  int16_t fixed_point_z;
+  int16_t unused_data;
 };
 ```
 
