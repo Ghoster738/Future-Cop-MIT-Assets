@@ -254,12 +254,13 @@ struct bone {
   uint8_t opcode; // This opcode is VERY IMPORTANT.
 
   // These are constants to be used if 3DMI does not hold the data.
-  int16_t const_position_x;
-  int16_t const_position_y;
-  int16_t const_position_z;
-  int16_t const_rotation_x;
-  int16_t const_rotation_y;
-  int16_t const_rotation_z;
+  // These are base indexes to 3DMI if they are not constant.
+  int16_t position_x;
+  int16_t position_y;
+  int16_t position_z;
+  int16_t rotation_x;
+  int16_t rotation_y;
+  int16_t rotation_z;
 ```
 
 #### Determining the Bone Hierarcy
@@ -308,7 +309,7 @@ If any of these bits are found to be enabled then the game will use the constant
 
 So if x_const is enabled then the bone x position stays constant throughout every animation.
 
-However, if x_const is not enabled then [3DMI](#3dmi) will hold an array of x positions. ***TODO: Explain how the arrays are arranged!***
+However, if x_const is not enabled then [3DMI](#3dmi) will hold an *index* to array of x positions. To get the x position in the animation, add the index of the x position with the frame of animation.
 
 #### Converting from Fixed-Point to floating point.
 Convert all position units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
@@ -319,11 +320,25 @@ const float ANGLE_UNIT = PI / 2048.0;
 ```
 
 ### 3DMI
-TODO
+This chunk holds the animation data buffer for skinned animated models in 16 bit arrays.
+
+#### Data
+The first thing that is read is this chunk.
+```c
+struct chunk_3dmi_header {
+  uint32_t chunk_id; // Windows/PS1 IMD3. Macintosh 3DMI
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t one;
+};
+```
+
+The rest of this chunk contains a signed 16 bit data array that will be referenced by [3DHY](#3dhy).
+
+#### Memory Organization
 
 ### 3DRF
 This chunk holds IDs referncing vertex buffer chunk(s). Vertex Buffer Chunks for this document are [4DVL](#4dvl), [4DNL](#4dnl), and [3DRL](#3drl) chunks.
-The game actually uses IDs stored indiviually in [4DVL](#4dvl), [4DNL](#4dnl), and [3DRL](#3drl) chunks.
+The game actually uses IDs stored individually in [4DVL](#4dvl), [4DNL](#4dnl), and [3DRL](#3drl) chunks.
 Each chunk type has its own namespace.
 
 #### Data
