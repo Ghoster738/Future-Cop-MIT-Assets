@@ -108,7 +108,54 @@ void loop(float deltaSecond) {
 ```
 
 ### 3DBB
-TODO
+This holds bounding boxes that the model uses. For static models there are only one frame of bounding box data. For animated models they have multiple frames of bounding box data.
+
+#### Data
+The first thing that is read is this chunk.
+```c
+struct chunk_3dbb_header {
+  uint32_t chunk_id; // Windows/PS1 BBD3. Macintosh 3DBB
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t bounding_box_per_frame; // These are the bounding boxes per frame.
+  uint32_t bounding_box_amount; // This is the total bounding boxes in the chunk.
+};
+```
+
+This describes the structure of 3DBB.
+```c
+struct bounding_box {
+  int16_t x;
+  int16_t y;
+  int16_t z;
+  uint16_t length_x;
+  uint16_t length_y;
+  uint16_t length_z;
+  uint16_t length_pyth_3; // Roughly (length_x^2 + length_y^2 + length_z^2) square rooted.
+  uint16_t length_pyth_2; // Roughly (length_x^2 + length_z^2) square rooted.
+};
+```
+
+The rest are this.
+```c
+uint32_t bounding_box_frames = bounding_box_amount / bounding_box_per_frame;
+
+struct bounding_boxes[bounding_box_per_frame][bounding_box_frames];
+```
+
+**This is how the bounding boxes are placed.**
+```
+Frame placement
+if bounding_box_per_frame 2 and bounding_box_amount 6 then bounding_box_frames equals 3
+struct bounding_boxes[2][3];
+
+This will be the how the bounding boxes are laid out.
+bounding_boxes[0][0] // Box 0 frame 0
+bounding_boxes[0][1] // Box 0 frame 1
+bounding_boxes[0][2] // Box 0 frame 2
+bounding_boxes[1][0] // Box 1 frame 0
+bounding_boxes[1][1] // Box 1 frame 1
+bounding_boxes[1][2] // Box 1 frame 2
+```
 
 ### 3DHS
 TODO
