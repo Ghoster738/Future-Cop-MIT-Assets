@@ -120,7 +120,39 @@ TODO
 TODO
 
 ### 3DRF
-TODO
+This chunk holds IDs referncing vertex buffer chunk(s). Vertex Buffer Chunks for this document are [4DVL](#4dvl), [4DNL](#4dnl), and [3DRL](#3drl) chunks.
+The game actually uses IDs stored indiviually in [4DVL](#4dvl), [4DNL](#4dnl), and [3DRL](#3drl) chunks.
+Each chunk type has its own namespace.
+
+#### Data
+The first thing that is read is this chunk.
+```c
+struct chunk_3drf_header {
+  uint32_t chunk_id; // Windows/PS1 FRD3. Macintosh 3DRF
+  uint32_t tag_size; // Size of whole chunk.
+  uint32_t reference_number; // 1,    2,    3.
+  uint32_t reference_tag;    // 4DVL, 4DNL, 3DRL. 4DNL would have a reference_number of 2. 3DRL would be 3.
+  uint32_t count; // A static and skin animation model has only one reference number. Morph target animation has a count that matches its numbers of frames.
+};
+```
+
+This struct is followed by this array of data.
+```
+uint32_t 3drf_ids[count]; // This holds IDs
+```
+
+#### Static Models/Skin Animation Models
+Since there is only one reference per vertex buffer then the chunk then only expect that the Vertex Buffer Chunk being the reference_tag has the correct 3drf ID.
+
+#### Morph Target Models
+The morph target models are a little bit more complicated. In the frame index of the animation being played
+```
+let i be the frame index being used while drawing model.
+
+let 3drf_ids[i] be the ID that is used for the vertex buffer.
+```
+
+Please remember that there are three 3DRF's and the three or more 4DVL, 4DNL, and 3DRL chunks.
 
 ### 3DRL
 TODO
