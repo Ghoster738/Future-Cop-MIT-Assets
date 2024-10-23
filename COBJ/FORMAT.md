@@ -372,7 +372,7 @@ let 3drf_ids[i] be the ID that is used for the vertex buffer.
 Please remember that there are three 3DRF's and the three or more 4DVL, 4DNL, and 3DRL chunks.
 
 ### 3DRL
-This vertex buffer chunk contains normal data. It is referenced by [3DRF](#3drf) by ```id```.
+This vertex buffer chunk contains length data. It is referenced by [3DRF](#3drf) by ```id```.
 
 #### Data
 The first part of the chunk holds this data.
