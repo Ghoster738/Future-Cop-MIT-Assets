@@ -513,7 +513,7 @@ win/ps1/mac 8 bitfield: tmmm,muuu
 
 t = texture enabled.
 m = materials bitfield
-u = Unused bitfield. Guess.
+u = Unknown bitfield.
 ```
 
 Opcode[1]
