@@ -464,14 +464,14 @@ These structs are used for the primitives that will be read.
 enum vertex_color_mode {
     BLACK      = 0, // Only black.
     MONOCHROME = 1, // Only the "red" channel is read for color.
-    FULL       = 2
+    FULL       = 2  // All three color values are read.
 };
 ```
 ```c
 enum visability_mode {
-    OPAQUE   = 0,
-    ADDITION = 1,
-    MIX      = 2
+    OPAQUE   = 0, // Transparency Bit is ignored, polygon draws over everything.
+    ADDITION = 1, // Transparency Bit is ignored, polygon lightens what it draw over via addition.
+    MIX      = 2  // Transparency Bit is    read, polygon mixes with it draw over by averages.
 };
 ```
 ```c
