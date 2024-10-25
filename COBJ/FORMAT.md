@@ -441,7 +441,7 @@ struct chunk_3dtl_header {
 After the header these are the rest of the data entries. **They have variable sizes of either 4 bytes or 16 bytes. Read them in sequence and store there offset right after the 3dtl_header struct.**
 ```c
 struct entry_3dtl_color {
-  uint8_t opcode; // If 1 then entry_3dtl_texture is not in this entry_3dtl_color struct. 2 and 3 and entry_3dtl_texture follows the entry
+  uint8_t opcode; // If 1 then entry_3dtl_texture is not in this entry_3dtl_color struct. 2 and 3 and entry_3dtl_texture follows the entry. Opcode 2 and 3 are effectively the same.
   uint8_t red;
   uint8_t green;
   uint8_t blue;
