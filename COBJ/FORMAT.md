@@ -467,6 +467,7 @@ enum vertex_color_mode {
     FULL       = 2  // All three color values are read.
 };
 ```
+Note: If the texture is being read, then the blacks would be culled by default.
 ```c
 enum visability_mode {
     OPAQUE   = 0, // Transparency Bit is ignored, polygon draws over everything.
