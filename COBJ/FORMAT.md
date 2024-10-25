@@ -527,26 +527,27 @@ r = "reflections" One if you want reflections on the primitive.
 ```
 
 #### Material Bitfield Decoding
-| Material | Gouraud Shading | Vertex Color | Visability Mode | Stable without Texture? |
-| -------: | :-------------: | :----------: | :-------------: | :---------------------: |
-| 0000     | FALSE           | MONOCHROME   | OPAQUE          | No                      |
-| 0001     | FALSE           | MONOCHROME   | MIX             | No                      |
-| 0010     | FALSE           | FULL         | OPAQUE          | Yes                     |
-| 0011     | FALSE           | FULL         | MIX             | Yes                     |
-| 0100     | TRUE            | MONOCHROME   | OPAQUE          | No                      |
-| 0101     | TRUE            | MONOCHROME   | MIX             | No                      |
-| 0110     | TRUE            | FULL         | OPAQUE          | Yes                     |
-| 0111     | TRUE            | FULL         | MIX             | Yes                     |
-| 1000     | TRUE            | MONOCHROME   | OPAQUE          | No                      |
-| 1001     | TRUE            | MONOCHROME   | MIX             | No                      |
-| 1010     | TRUE            | FULL         | OPAQUE          | Yes                     |
-| 1011     | TRUE            | FULL         | OPAQUE          | Yes                     |
-| 1100     | FALSE           | FULL         | ADDITION        | Yes                     |
-| 1101     | FALSE           | FULL         | ADDITION        | Yes                     |
-| 1110     | *TRUE           | BLACK        | MIX             | No                      |
-| 1111     | *TRUE           | BLACK        | MIX             | No                      |
+| Material | Gouraud Shading | Vertex Color | Visability Mode |
+| -------: | :-------------: | :----------: | :-------------: |
+| 0000     | FALSE           | MONOCHROME   | OPAQUE          |
+| 0001     | FALSE           | MONOCHROME   | MIX             |
+| 0010     | FALSE           | FULL @       | OPAQUE          |
+| 0011     | FALSE           | FULL @       | MIX             |
+| 0100     | TRUE            | MONOCHROME   | OPAQUE          |
+| 0101     | TRUE            | MONOCHROME   | MIX             |
+| 0110     | TRUE            | FULL @       | OPAQUE          |
+| 0111     | TRUE            | FULL @       | MIX             |
+| 1000     | TRUE            | MONOCHROME   | OPAQUE          |
+| 1001     | TRUE            | MONOCHROME   | MIX             |
+| 1010     | TRUE            | FULL @       | OPAQUE          |
+| 1011     | TRUE            | FULL @       | OPAQUE          |
+| 1100     | FALSE           | FULL @       | ADDITION        |
+| 1101     | FALSE           | FULL @       | ADDITION        |
+| 1110     | TRUE *          | BLACK        | MIX             |
+| 1111     | TRUE *          | BLACK        | MIX             |
 
  \* Cannot determine shader mode for the material opcodes.
+ @ Full color is the stable option for textureless primitives. Other vertex color modes are less predictable.
 
 #### Primitives
 The primitive data from the Opcode[1] bitfield. This is how the bytes from the primitive_3dql struct be written. It also shows which data these datas are held.
