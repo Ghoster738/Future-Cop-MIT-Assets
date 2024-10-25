@@ -463,8 +463,9 @@ These structs are used for the primitives that will be read.
 ```c
 enum vertex_color_mode {
     NON        = 0,
-    MONOCHROME = 1, // Warning: I am not sure that this is actually a thing.
-    FULL       = 2
+    MONOCHROME = 1, // Only the "red" channel is read for color.
+    FULL       = 2,
+    BLACK      = 3  // Only black.
 };
 ```
 ```c
@@ -528,24 +529,26 @@ r = "reflections" One if you want reflections on the primitive.
 
 #### Material Bitfield Decoding
 Warning: The knowedge on materials is probably incomplete. I might have made mistakes somewhere.
-| Material | Gouraud Shading | Vertex Color | Visability Mode |
-| -------: | :-------------: | :----------: | :-------------: |
-| 0000     | FALSE           | NONE         | OPAQUE          |
-| 0001     | FALSE           | NONE         | MIX             |
-| 0010     | FALSE           | MONOCHROME   | OPAQUE          |
-| 0011     | FALSE           | NONE         | MIX             |
-| 0100     | TRUE            | NONE         | OPAQUE          |
-| 0101     | TRUE            | NONE         | MIX             |
-| 0110     | TRUE            | FULL         | OPAQUE          |
-| 0111     | TRUE            | FULL         | MIX             |
-| 1000     | TRUE            | NONE         | OPAQUE          |
-| 1001     | TRUE            | NONE         | MIX             |
-| 1010     | TRUE            | FULL         | OPAQUE          |
-| 1011     | TRUE            | FULL         | OPAQUE          |
-| 1100     | FALSE           | FULL         | ADDITION        |
-| 1101     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
-| 1110     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
-| 1111     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
+| Material | Gouraud Shading | Vertex Color | Visability Mode | Stable without Texture?     |
+| -------: | :-------------: | :----------: | :-------------: | :-------------------------: |
+| 0000     | FALSE           | MONOCHROME   | OPAQUE          | No                          |
+| 0001     | FALSE           | MONOCHROME   | MIX             | No                          |
+| 0010     | FALSE           | FULL         | OPAQUE          | Yes                         |
+| 0011     | FALSE           | FULL         | MIX             | Yes                         |
+| 0100     | TRUE            | MONOCHROME   | OPAQUE          | No                          |
+| 0101     | TRUE            | MONOCHROME   | MIX             | No                          |
+| 0110     | TRUE            | FULL         | OPAQUE          | Yes                         |
+| 0111     | TRUE            | FULL         | MIX             | Yes                         |
+| 1000     | TRUE            | MONOCHROME   | OPAQUE          | No                          |
+| 1001     | TRUE            | MONOCHROME   | MIX             | No                          |
+| 1010     | TRUE            | FULL         | OPAQUE          | Yes                         |
+| 1011     | TRUE            | FULL         | OPAQUE          | Yes                         |
+| 1100     | FALSE           | FULL         | ADDITION        | Yes                         |
+| 1101     | FALSE           | FULL         | ADDITION        | Yes                         |
+| 1110     | *TRUE           | BLACK        | MIX             | No                          |
+| 1111     | *TRUE           | BLACK        | MIX             | No                          |
+
+ \* Cannot determine shader mode for the material opcodes.
 
 #### Primitives
 The primitive data from the Opcode[1] bitfield. This is how the bytes from the primitive_3dql struct be written. It also shows which data these datas are held.
