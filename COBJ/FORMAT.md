@@ -462,10 +462,9 @@ This holds the primitives which can be stars, triangles, quadrilaterals, billboa
 These structs are used for the primitives that will be read.
 ```c
 enum vertex_color_mode {
-    NON        = 0,
+    BLACK      = 0, // Only black.
     MONOCHROME = 1, // Only the "red" channel is read for color.
-    FULL       = 2,
-    BLACK      = 3  // Only black.
+    FULL       = 2
 };
 ```
 ```c
@@ -528,25 +527,24 @@ r = "reflections" One if you want reflections on the primitive.
 ```
 
 #### Material Bitfield Decoding
-Warning: The knowedge on materials is probably incomplete. I might have made mistakes somewhere.
-| Material | Gouraud Shading | Vertex Color | Visability Mode | Stable without Texture?     |
-| -------: | :-------------: | :----------: | :-------------: | :-------------------------: |
-| 0000     | FALSE           | MONOCHROME   | OPAQUE          | No                          |
-| 0001     | FALSE           | MONOCHROME   | MIX             | No                          |
-| 0010     | FALSE           | FULL         | OPAQUE          | Yes                         |
-| 0011     | FALSE           | FULL         | MIX             | Yes                         |
-| 0100     | TRUE            | MONOCHROME   | OPAQUE          | No                          |
-| 0101     | TRUE            | MONOCHROME   | MIX             | No                          |
-| 0110     | TRUE            | FULL         | OPAQUE          | Yes                         |
-| 0111     | TRUE            | FULL         | MIX             | Yes                         |
-| 1000     | TRUE            | MONOCHROME   | OPAQUE          | No                          |
-| 1001     | TRUE            | MONOCHROME   | MIX             | No                          |
-| 1010     | TRUE            | FULL         | OPAQUE          | Yes                         |
-| 1011     | TRUE            | FULL         | OPAQUE          | Yes                         |
-| 1100     | FALSE           | FULL         | ADDITION        | Yes                         |
-| 1101     | FALSE           | FULL         | ADDITION        | Yes                         |
-| 1110     | *TRUE           | BLACK        | MIX             | No                          |
-| 1111     | *TRUE           | BLACK        | MIX             | No                          |
+| Material | Gouraud Shading | Vertex Color | Visability Mode | Stable without Texture? |
+| -------: | :-------------: | :----------: | :-------------: | :---------------------: |
+| 0000     | FALSE           | MONOCHROME   | OPAQUE          | No                      |
+| 0001     | FALSE           | MONOCHROME   | MIX             | No                      |
+| 0010     | FALSE           | FULL         | OPAQUE          | Yes                     |
+| 0011     | FALSE           | FULL         | MIX             | Yes                     |
+| 0100     | TRUE            | MONOCHROME   | OPAQUE          | No                      |
+| 0101     | TRUE            | MONOCHROME   | MIX             | No                      |
+| 0110     | TRUE            | FULL         | OPAQUE          | Yes                     |
+| 0111     | TRUE            | FULL         | MIX             | Yes                     |
+| 1000     | TRUE            | MONOCHROME   | OPAQUE          | No                      |
+| 1001     | TRUE            | MONOCHROME   | MIX             | No                      |
+| 1010     | TRUE            | FULL         | OPAQUE          | Yes                     |
+| 1011     | TRUE            | FULL         | OPAQUE          | Yes                     |
+| 1100     | FALSE           | FULL         | ADDITION        | Yes                     |
+| 1101     | FALSE           | FULL         | ADDITION        | Yes                     |
+| 1110     | *TRUE           | BLACK        | MIX             | No                      |
+| 1111     | *TRUE           | BLACK        | MIX             | No                      |
 
  \* Cannot determine shader mode for the material opcodes.
 
