@@ -372,7 +372,7 @@ let 3drf_ids[i] be the ID that is used for the vertex buffer.
 Please remember that there are three 3DRF's and the three or more 4DVL, 4DNL, and 3DRL chunks.
 
 ### 3DRL
-This vertex buffer chunk contains normal data. It is referenced by [3DRF](#3drf) by ```id```.
+This vertex buffer chunk contains length data. It is referenced by [3DRF](#3drf) by ```id```.
 
 #### Data
 The first part of the chunk holds this data.
@@ -441,7 +441,7 @@ struct chunk_3dtl_header {
 After the header these are the rest of the data entries. **They have variable sizes of either 4 bytes or 16 bytes. Read them in sequence and store there offset right after the 3dtl_header struct.**
 ```c
 struct entry_3dtl_color {
-  uint8_t opcode; // If 1 then entry_3dtl_texture is not in this entry_3dtl_color struct. 2 and 3 and entry_3dtl_texture follows the entry
+  uint8_t opcode; // If 1 then entry_3dtl_texture is not in this entry_3dtl_color struct. 2 and 3 and entry_3dtl_texture follows the entry. Opcode 2 and 3 are effectively the same.
   uint8_t red;
   uint8_t green;
   uint8_t blue;
@@ -462,16 +462,17 @@ This holds the primitives which can be stars, triangles, quadrilaterals, billboa
 These structs are used for the primitives that will be read.
 ```c
 enum vertex_color_mode {
-    NON        = 0,
-    MONOCHROME = 1, // Warning: I am not sure that this is actually a thing.
-    FULL       = 2
+    BLACK      = 0, // Only black.
+    MONOCHROME = 1, // Only the "red" channel is read for color.
+    FULL       = 2  // All three color values are read.
 };
 ```
+Note: If the texture is being read, then the blacks would be culled by default.
 ```c
 enum visability_mode {
-    OPAQUE   = 0,
-    ADDITION = 1,
-    MIX      = 2
+    OPAQUE   = 0, // Transparency Bit is ignored, polygon draws over everything.
+    ADDITION = 1, // Transparency Bit is ignored, polygon lightens what it draw over via addition.
+    MIX      = 2  // Transparency Bit is    read, polygon mixes with it draw over by averages.
 };
 ```
 ```c
@@ -513,7 +514,7 @@ win/ps1/mac 8 bitfield: tmmm,muuu
 
 t = texture enabled.
 m = materials bitfield
-u = Unused bitfield. Guess.
+u = Unknown bitfield.
 ```
 
 Opcode[1]
@@ -527,25 +528,30 @@ r = "reflections" One if you want reflections on the primitive.
 ```
 
 #### Material Bitfield Decoding
-Warning: The knowedge on materials is probably incomplete. I might have made mistakes somewhere.
-| Material | Gouraud Shading | Vertex Color | Visability Mode |
-| -------: | :-------------: | :----------: | :-------------: |
-| 0000     | FALSE           | NONE         | OPAQUE          |
-| 0001     | FALSE           | NONE         | MIX             |
-| 0010     | FALSE           | MONOCHROME   | OPAQUE          |
-| 0011     | FALSE           | NONE         | MIX             |
-| 0100     | TRUE            | NONE         | OPAQUE          |
-| 0101     | TRUE            | NONE         | MIX             |
-| 0110     | TRUE            | FULL         | OPAQUE          |
-| 0111     | TRUE            | FULL         | MIX             |
-| 1000     | TRUE            | NONE         | OPAQUE          |
-| 1001     | TRUE            | NONE         | MIX             |
-| 1010     | TRUE            | FULL         | OPAQUE          |
-| 1011     | TRUE            | FULL         | OPAQUE          |
-| 1100     | FALSE           | FULL         | ADDITION        |
-| 1101     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
-| 1110     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
-| 1111     | UNKNOWN         | UNKNOWN      | UNKNOWN         |
+| Material | Gouraud Shading | Vertex Color | Visability Mode | Vertex Color Semi-Transparent $ |
+| -------: | :-------------: | :----------: | :-------------: | :-----------------------------: |
+| 0000     | FALSE           | MONOCHROME   | OPAQUE          | N/A                             |
+| 0001     | FALSE           | MONOCHROME   | MIX             | N/A                             |
+| 0010     | FALSE           | FULL @       | OPAQUE          | No                              |
+| 0011     | FALSE           | FULL @       | MIX             | Yes                             |
+| 0100     | TRUE            | MONOCHROME   | OPAQUE          | N/A                             |
+| 0101     | TRUE            | MONOCHROME   | MIX             | N/A                             |
+| 0110     | TRUE            | FULL @       | OPAQUE          | No                              |
+| 0111     | TRUE            | FULL @       | MIX             | Yes                             |
+| 1000     | TRUE            | MONOCHROME   | OPAQUE          | N/A                             |
+| 1001     | TRUE            | MONOCHROME   | MIX             | N/A                             |
+| 1010     | TRUE            | FULL @       | OPAQUE          | No                              |
+| 1011     | TRUE            | FULL @       | OPAQUE          | Yes                             |
+| 1100     | FALSE           | FULL @       | ADDITION        | Yes                             |
+| 1101     | FALSE           | FULL @       | ADDITION        | Yes                             |
+| 1110     | TRUE *          | BLACK        | MIX             | N/A                             |
+| 1111     | TRUE *          | BLACK        | MIX             | N/A                             |
+
+ \* Cannot determine shader mode for the material opcodes.
+ 
+ @ Full color is the stable option for textureless primitives. Other vertex color modes are less predictable.
+
+ $ This value is only relevant if the primitive does not use a texture.
 
 #### Primitives
 The primitive data from the Opcode[1] bitfield. This is how the bytes from the primitive_3dql struct be written. It also shows which data these datas are held.
