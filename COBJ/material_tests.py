@@ -1,32 +1,37 @@
 import COBJBuilder
 
-def generateModel(isReflective : bool, isReflectiveSemiTransparent : bool):
+def generateModel(cbmp_id: int, isReflective : bool, isReflectiveSemiTransparent : bool):
     model = COBJBuilder.COBJModel()
 
     model.setEnvironmentMapSemiTransparent(isReflectiveSemiTransparent)
 
-    testFaceType = COBJBuilder.COBJFaceType()
-    testFaceType.setVertexColor(True, [0, 0xff, 0])
-    testFaceType.setTexCoords(True, [[0, 0], [0, 0xff], [0xff, 0xff], [0xff, 0]])
-    testFaceType.setBMPID(6)
-    model.appendFaceType(testFaceType)
+    testFaceTypes = []
+    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes[-1].setVertexColor(True, [0, 0xff, 0])
 
-    testFaceType = COBJBuilder.COBJFaceType()
-    testFaceType.setVertexColor(True, [0x7f, 0x7f, 0x7f])
-    model.appendFaceType(testFaceType)
-    testFaceType = COBJBuilder.COBJFaceType()
-    testFaceType.setVertexColor(True, [0x7f, 0, 0])
-    model.appendFaceType(testFaceType)
-    testFaceType = COBJBuilder.COBJFaceType()
-    testFaceType.setVertexColor(True, [0, 0x7f, 0])
-    model.appendFaceType(testFaceType)
-    testFaceType = COBJBuilder.COBJFaceType()
-    testFaceType.setVertexColor(True, [0, 0, 0x7f])
-    model.appendFaceType(testFaceType)
+    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes[-1].setVertexColor(True, [0x7f, 0x7f, 0x7f])
+
+    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes[-1].setVertexColor(True, [0x7f, 0, 0])
+
+    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes[-1].setVertexColor(True, [0, 0x7f, 0])
+
+    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes[-1].setVertexColor(True, [0, 0, 0x7f])
+
+    if cbmp_id != 0:
+        for i in testFaceTypes:
+            i.setTexCoords(True, [[0, 0], [0, 0xff], [0xff, 0xff], [0xff, 0]])
+            i.setBMPID(cbmp_id)
+
+    for i in testFaceTypes:
+        model.appendFaceType(i)
 
     face = COBJBuilder.COBJPrimitive()
     face.setTypeQuad([3, 2, 1, 0], [0, 0, 0, 0])
-    face.setTexture(True)
+    face.setTexture(cbmp_id != 0)
     face.setReflective(False)
     face.setFaceTypeIndex(0)
     model.appendPrimitive(face)
@@ -37,9 +42,12 @@ def generateModel(isReflective : bool, isReflectiveSemiTransparent : bool):
 
     for t in range(0, number_of_test_face_types):
         for i in range(0, number_of_test_quads):
+            if cbmp_id == 0 and (i == 0 or i == 1 or i == 4 or i == 5 or i == 8 or i == 9 or i == 14 or i == 15):
+                continue
+
             face = COBJBuilder.COBJPrimitive()
             face.setTypeQuad([0 + 4 * (i + t * number_of_test_quads), 1 + 4 * (i + t * number_of_test_quads), 2 + 4 * (i + t * number_of_test_quads), 3 + 4 * (i + t * number_of_test_quads)], [0, 0, 0, 0])
-            face.setTexture(False)
+            face.setTexture(cbmp_id != 0)
             face.setReflective(isReflective)
             face.setMaterialBitfield(i)
             face.setFaceTypeIndex(t + 1)
@@ -65,6 +73,9 @@ def generateModel(isReflective : bool, isReflectiveSemiTransparent : bool):
 
     return model
 
-generateModel(False, False).makeFile("stable_vertex_color_only_material_bitfield.cobj", '<', False)
-generateModel( True, False).makeFile("stable_vertex_color_only_reflective_material_bitfield.cobj", '<', False)
-generateModel( True,  True).makeFile("stable_vertex_color_only_semi_reflective_material_bitfield.cobj", '<', False)
+generateModel(0, False, False).makeFile("stable_vertex_color_only_material_bitfield.cobj", '<', False)
+generateModel(0,  True, False).makeFile("stable_vertex_color_only_reflective_material_bitfield.cobj", '<', False)
+generateModel(0,  True,  True).makeFile("stable_vertex_color_only_semi_reflective_material_bitfield.cobj", '<', False)
+generateModel(6, False, False).makeFile("vertex_color_texture_material_bitfields.cobj", '<', False)
+generateModel(6,  True, False).makeFile("vertex_color_texture_reflective_material_bitfields.cobj", '<', False)
+generateModel(6,  True,  True).makeFile("vertex_color_texture_semi_reflective_material_bitfields.cobj", '<', False)
