@@ -1,43 +1,43 @@
 import COBJBuilder
 
-model = COBJBuilder.COBJModel()
+model = COBJBuilder.Model()
 
-orange = COBJBuilder.COBJFaceType() # Dark Orange
+orange = COBJBuilder.FaceType() # Dark Orange
 orange.setVertexColor(True, [99, 55, 0])
 model.appendFaceType(orange)
-black = COBJBuilder.COBJFaceType() # Blue
+black = COBJBuilder.FaceType() # Blue
 black.setVertexColor(True, [0, 0, 10])
 model.appendFaceType(black)
 
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeQuad([2, 3, 1, 0], [0, 0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
 face.setMaterialBitfield(2)
 face.setFaceTypeIndex(0) # Orange index.
 model.appendPrimitive(face)
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeQuad([4, 5, 7, 6], [0, 0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
 face.setMaterialBitfield(2)
 face.setFaceTypeIndex(0) # Orange index.
 model.appendPrimitive(face)
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeQuad([0, 1, 5, 4], [0, 0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
 face.setMaterialBitfield(2)
 face.setFaceTypeIndex(0) # Orange index.
 model.appendPrimitive(face)
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeQuad([5, 1, 3, 7], [0, 0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
 face.setMaterialBitfield(2)
 face.setFaceTypeIndex(0) # Orange index.
 model.appendPrimitive(face)
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeQuad([6, 2, 0, 4], [0, 0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
@@ -45,7 +45,7 @@ face.setMaterialBitfield(2)
 face.setFaceTypeIndex(0) # Orange index.
 model.appendPrimitive(face)
 
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeTriangle([8, 9, 10], [0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
@@ -53,7 +53,7 @@ face.setMaterialBitfield(2)
 face.setFaceTypeIndex(1) # Black index.
 model.appendPrimitive(face)
 
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeTriangle([13, 12, 11], [0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
@@ -61,7 +61,7 @@ face.setMaterialBitfield(2)
 face.setFaceTypeIndex(1) # Black index.
 model.appendPrimitive(face)
 
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeTriangle([14, 15, 16], [0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)
@@ -69,7 +69,7 @@ face.setMaterialBitfield(2)
 face.setFaceTypeIndex(1) # Black index.
 model.appendPrimitive(face)
 
-face = COBJBuilder.COBJPrimitive()
+face = COBJBuilder.Primitive()
 face.setTypeTriangle([17, 18, 19], [0, 0, 0])
 face.setTexture(False)
 face.setReflective(False)

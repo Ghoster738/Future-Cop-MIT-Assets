@@ -1,24 +1,24 @@
 import COBJBuilder
 
 def generateModel(cbmp_id: int, isReflective : bool, isReflectiveSemiTransparent : bool):
-    model = COBJBuilder.COBJModel()
+    model = COBJBuilder.Model()
 
     model.setEnvironmentMapSemiTransparent(isReflectiveSemiTransparent)
 
     testFaceTypes = []
-    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes.append( COBJBuilder.FaceType() )
     testFaceTypes[-1].setVertexColor(True, [0, 0xff, 0])
 
-    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes.append( COBJBuilder.FaceType() )
     testFaceTypes[-1].setVertexColor(True, [0x7f, 0x7f, 0x7f])
 
-    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes.append( COBJBuilder.FaceType() )
     testFaceTypes[-1].setVertexColor(True, [0x7f, 0, 0])
 
-    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes.append( COBJBuilder.FaceType() )
     testFaceTypes[-1].setVertexColor(True, [0, 0x7f, 0])
 
-    testFaceTypes.append( COBJBuilder.COBJFaceType() )
+    testFaceTypes.append( COBJBuilder.FaceType() )
     testFaceTypes[-1].setVertexColor(True, [0, 0, 0x7f])
 
     if cbmp_id != 0:
@@ -29,7 +29,7 @@ def generateModel(cbmp_id: int, isReflective : bool, isReflectiveSemiTransparent
     for i in testFaceTypes:
         model.appendFaceType(i)
 
-    face = COBJBuilder.COBJPrimitive()
+    face = COBJBuilder.Primitive()
     face.setTypeQuad([3, 2, 1, 0], [0, 0, 0, 0])
     face.setTexture(cbmp_id != 0)
     face.setReflective(False)
@@ -45,7 +45,7 @@ def generateModel(cbmp_id: int, isReflective : bool, isReflectiveSemiTransparent
             if cbmp_id == 0 and (i == 0 or i == 1 or i == 4 or i == 5 or i == 8 or i == 9 or i == 14 or i == 15):
                 continue
 
-            face = COBJBuilder.COBJPrimitive()
+            face = COBJBuilder.Primitive()
             face.setTypeQuad([0 + 4 * (i + t * number_of_test_quads), 1 + 4 * (i + t * number_of_test_quads), 2 + 4 * (i + t * number_of_test_quads), 3 + 4 * (i + t * number_of_test_quads)], [0, 0, 0, 0])
             face.setTexture(cbmp_id != 0)
             face.setReflective(isReflective)
