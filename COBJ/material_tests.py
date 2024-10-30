@@ -1,4 +1,5 @@
 import COBJBuilder
+import zlib
 
 def generateModel(cbmp_id: int, isTextured: bool, isReflective : bool, isReflectiveSemiTransparent : bool):
     model = COBJBuilder.Model()
@@ -73,9 +74,31 @@ def generateModel(cbmp_id: int, isTextured: bool, isReflective : bool, isReflect
 
     return model
 
-generateModel(6, False, False, False).makeFile("stable_vertex_color_only_material_bitfield.cobj", '<', False)
-generateModel(6, False,  True, False).makeFile("stable_vertex_color_only_reflective_material_bitfield.cobj", '<', False)
-generateModel(6, False,  True,  True).makeFile("stable_vertex_color_only_semi_reflective_material_bitfield.cobj", '<', False)
-generateModel(6,  True, False, False).makeFile("vertex_color_texture_material_bitfields.cobj", '<', False)
-generateModel(6,  True,  True, False).makeFile("vertex_color_texture_reflective_material_bitfields.cobj", '<', False)
-generateModel(6,  True,  True,  True).makeFile("vertex_color_texture_semi_reflective_material_bitfields.cobj", '<', False)
+model_defs = [
+    (6, False, False, False, "stable_vertex_color_only_material_bitfield.cobj",                 0x641aa032),
+    (6, False,  True, False, "stable_vertex_color_only_reflective_material_bitfield.cobj",      0x5a62be06),
+    (6, False,  True,  True, "stable_vertex_color_only_semi_reflective_material_bitfield.cobj", 0x9ab00451),
+    (6,  True, False, False, "vertex_color_texture_material_bitfields.cobj",                    0x1a7e0a25),
+    (6,  True,  True, False, "vertex_color_texture_reflective_material_bitfields.cobj",         0x15f29941),
+    (6,  True,  True,  True, "vertex_color_texture_semi_reflective_material_bitfields.cobj",    0x40abfe34)
+]
+
+def generate():
+    for i in model_defs:
+        generateModel(i[0], i[1], i[2], i[3]).makeFile(i[4], COBJBuilder.ModelFormat.WINDOWS)
+
+def test():
+    result = True
+
+    for i in model_defs:
+        crc32 = zlib.crc32(generateModel(i[0], i[1], i[2], i[3]).makeResource(COBJBuilder.ModelFormat.WINDOWS))
+
+        if crc32 != i[5]:
+            result = False
+            print(i[4], "failed")
+
+    return result
+
+if __name__ == "__main__":
+    test()
+    generate()
