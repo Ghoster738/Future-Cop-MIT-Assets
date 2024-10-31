@@ -120,7 +120,7 @@ float speed_rate;
 float time = -1.0f;
 
 void init() {
-  speed_rate = 2.0f * (0.0757594 * star_animation.speed_factor + 0.0520309);
+  speed_rate = 0.1515188 * star_animation.speed_factor + 0.1040618;
 }
 
 void loop(float deltaSecond) {
