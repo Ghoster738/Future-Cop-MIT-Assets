@@ -7,14 +7,31 @@ def generateModel():
     face = COBJBuilder.Primitive()
     face.setTypeStar(0, 0, [0xff, 0x00, 0x00])
     face.setStarVertexAmount(4)
+
+    face.setStarAnimationData(True)
+    face.getStarAnimationData().setColor( (0x00, 0xff, 0xff) )
+    face.getStarAnimationData().setSpeedFactor( 2 )
+
     model.appendPrimitive(face)
+
     face = COBJBuilder.Primitive()
     face.setTypeStar(1, 0, [0x00, 0xff, 0x00])
     face.setStarVertexAmount(8)
+
+    face.setStarAnimationData(True)
+    face.getStarAnimationData().setColor( (0xff, 0x00, 0xff) )
+    face.getStarAnimationData().setSpeedFactor( 3 )
+
     model.appendPrimitive(face)
+
     face = COBJBuilder.Primitive()
     face.setTypeStar(2, 0, [0x00, 0x00, 0xff])
     face.setStarVertexAmount(12)
+
+    face.setStarAnimationData(True)
+    face.getStarAnimationData().setColor( (0xff, 0xff, 0x00) )
+    face.getStarAnimationData().setSpeedFactor( 4 )
+
     model.appendPrimitive(face)
 
     model.allocateVertexBuffers(1, 3, 0, 1, 0, 0)
@@ -45,4 +62,4 @@ def test():
 
 if __name__ == "__main__":
     test()
-    generateModel().makeFile("star.cobj", COBJBuilder.ModelFormat.WINDOWS)
+    generateModel().makeFile("stars.cobj", COBJBuilder.ModelFormat.WINDOWS)
