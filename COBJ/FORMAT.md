@@ -95,12 +95,12 @@ The first thing that is read is this chunk.
 ```c
 struct chunk_3dal_header {
   uint32_t chunk_id; // Windows/PS1 LAD3. Macintosh 3DAL
-  uint32_t tag_size; // Size of whole chunk.
-  uint32_t count; // This holds how many star_animation structs are in this chunk. Note: Only a count of one had been observed. It could be that this is only a version number!
+  uint32_t tag_size; // Size of whole chunk. It can be 20 or higher without crashing the game.
+  uint32_t unused; // This value is unused.
 };
 ```
 
-The rest of the chunk comprises of these star animation structs.
+The rest of this chunk comprises of only one star animation struct.
 ```c
 struct star_animation {
   uint8_t face_index; // 3DQL index to primative type star
