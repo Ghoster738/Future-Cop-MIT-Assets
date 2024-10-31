@@ -5,14 +5,24 @@ def generateModel():
     model = COBJBuilder.Model()
 
     face = COBJBuilder.Primitive()
-    face.setTypeStar(0, 0, [0, 0xff, 0])
+    face.setTypeStar(0, 0, [0xff, 0x00, 0x00])
     face.setStarVertexAmount(4)
     model.appendPrimitive(face)
+    face = COBJBuilder.Primitive()
+    face.setTypeStar(1, 0, [0x00, 0xff, 0x00])
+    face.setStarVertexAmount(8)
+    model.appendPrimitive(face)
+    face = COBJBuilder.Primitive()
+    face.setTypeStar(2, 0, [0x00, 0x00, 0xff])
+    face.setStarVertexAmount(12)
+    model.appendPrimitive(face)
 
-    model.allocateVertexBuffers(1, 1, 0, 1, 0, 0)
+    model.allocateVertexBuffers(1, 3, 0, 1, 0, 0)
 
     positionBuffer = model.getPositionBuffer(0)
     positionBuffer.setValue(0, ( 0,  64,  0))
+    positionBuffer.setValue(1, ( 0, 192,  0))
+    positionBuffer.setValue(2, ( 0, 320,  0))
 
     lengthBuffer = model.getLengthBuffer(0)
     lengthBuffer.setValue(0, 64)
@@ -24,7 +34,7 @@ def generateModel():
 def test():
     result = True
 
-    expected_crc32 = 0x88eb5888
+    expected_crc32 = 0xba1e9e98
     crc32 = zlib.crc32(generateModel().makeResource(COBJBuilder.ModelFormat.WINDOWS))
 
     if crc32 != expected_crc32:
