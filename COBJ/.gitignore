@@ -1,1 +1,3 @@
 *.cobj
+*.pyc
+COBJBuilder.py
