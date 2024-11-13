@@ -11,7 +11,7 @@ def generateModel(animation_amount: int):
     if animation_amount > 0:
         face.setStarAnimationData(True)
         face.getStarAnimationData().setColor( (0x00, 0xff, 0xff) )
-        face.getStarAnimationData().setSpeedFactor( 2 )
+        face.getStarAnimationData().setSpeedFactorInSeconds( 2 )
 
     model.appendPrimitive(face)
 
@@ -22,7 +22,7 @@ def generateModel(animation_amount: int):
     if animation_amount > 1:
         face.setStarAnimationData(True)
         face.getStarAnimationData().setColor( (0xff, 0x00, 0xff) )
-        face.getStarAnimationData().setSpeedFactor( 3 )
+        face.getStarAnimationData().setSpeedFactorInSeconds( 3 )
 
     model.appendPrimitive(face)
 
@@ -33,7 +33,7 @@ def generateModel(animation_amount: int):
     if animation_amount > 2:
         face.setStarAnimationData(True)
         face.getStarAnimationData().setColor( (0xff, 0xff, 0x00) )
-        face.getStarAnimationData().setSpeedFactor( 4 )
+        face.getStarAnimationData().setSpeedFactorInSeconds( 4 )
 
     model.appendPrimitive(face)
 
