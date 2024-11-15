@@ -32,8 +32,9 @@ def generateModel(cbmp_id: int, isTextured: bool, hasTextureAnimationChunk: bool
             i.setTexFrameDurationInSeconds(1.0)
             i.setTexCoordFrameCount(4)
 
-            for f in range(4):
-                i.setTexCoords(True, [[0, f * 27], [0, (f + 1) * 27], [27, (f + 1) * 27], [27, 0]], f)
+            for x in range(2):
+                for y in range(2):
+                    i.setTexCoords(True, [[x * 127, y * 127], [x * 127, (y + 1) * 127], [(x + 1) * 127, (y + 1) * 127], [(x + 1) * 127, y * 127]], 2 * x + y)
 
         i.setBMPID(cbmp_id)
         model.appendFaceType(i)
@@ -89,9 +90,9 @@ model_defs = [
     (6,  True, False, False, False, "vertex_color_texture_material_bitfields.cobj",                          0x1a7e0a25),
     (6,  True, False,  True, False, "vertex_color_texture_reflective_material_bitfields.cobj",               0x15f29941),
     (6,  True, False,  True,  True, "vertex_color_texture_semi_reflective_material_bitfields.cobj",          0x40abfe34),
-    (6,  True,  True, False, False, "vertex_color_animated_texture_material_bitfields.cobj",                 0x5e9936ee),
-    (6,  True,  True,  True, False, "vertex_color_animated_texture_reflective_material_bitfields.cobj",      0x9c16e993),
-    (6,  True,  True,  True,  True, "vertex_color_animated_texture_semi_reflective_material_bitfields.cobj", 0x4276abca)
+    (6,  True,  True, False, False, "vertex_color_animated_texture_material_bitfields.cobj",                 0xcdd2ad5d),
+    (6,  True,  True,  True, False, "vertex_color_animated_texture_reflective_material_bitfields.cobj",      0x0f5d7220),
+    (6,  True,  True,  True,  True, "vertex_color_animated_texture_semi_reflective_material_bitfields.cobj", 0xd13d3079)
 ]
 
 def generate():
