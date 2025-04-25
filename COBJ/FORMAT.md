@@ -189,7 +189,11 @@ bounding_boxes[1][2] // Box 1 frame 2
 Convert all bounding box units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
 
 ### 3DHS
-This chunk probably holds child positions for the skinned system. It probably overrides [4DGI](#4dgi) position_indexes array.
+This chunk probably holds child positions for the bone/rigged/skinned system.
+I do not know if it is a requirement for vertex positions.
+I also do not know if 4DHS can exceed having 4 childern.
+It overrides [4DGI](#4dgi) position_indexes array.
+In a mater of fact, 3DHS holds the vertex positions **already** transformed by the bones.
 
 #### Data
 The first part that is read is this chunk.
@@ -227,6 +231,8 @@ child_positions[2][1] = (-9, -4, -5)
 
 #### Converting from Fixed-Point to floating point.
 Convert all position units with [4DVL](#4dvl)'s FIXED_POINT_UNIT.
+
+#### After this these positions
 
 ### 3DHY
 This holds the skeleton information for skinned animation.
