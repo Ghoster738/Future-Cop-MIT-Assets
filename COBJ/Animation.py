@@ -23,9 +23,23 @@ def generateModel():
     face.setFaceTypeIndex(0)
     model.appendPrimitive(face)
 
+    face = COBJBuilder.Primitive()
+    face.setTypeTriangle([0, 1, 2], [0, 0, 0])
+    face.setTexture(False)
+    face.setReflective(False)
+    face.setFaceTypeIndex(0)
+    model.appendPrimitive(face)
+
     for i in range(0, 8):
         face = COBJBuilder.Primitive()
         face.setTypeTriangle([3 + i, 12 + i, 4 + i], [0, 0, 0])
+        face.setTexture(False)
+        face.setReflective(False)
+        face.setFaceTypeIndex(1 + i)
+        model.appendPrimitive(face)
+
+        face = COBJBuilder.Primitive()
+        face.setTypeTriangle([4 + i, 12 + i, 3 + i], [0, 0, 0])
         face.setTexture(False)
         face.setReflective(False)
         face.setFaceTypeIndex(1 + i)
