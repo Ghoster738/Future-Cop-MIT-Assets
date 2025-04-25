@@ -11,36 +11,50 @@ def generateModel(cbmp_id: int):
     testFaceTypes[-1].setVertexColor(True, [0, 0xff, 0])
     model.appendFaceType(testFaceTypes[-1])
 
-    testFaceTypes.clear()
-
-    testFaceTypes.append( COBJBuilder.FaceType() )
-    testFaceTypes[-1].setVertexColor(True, [0x7f, 0x7f, 0x7f])
-
-    for i in testFaceTypes:
-        i.setTexCoords(True, [[0, 0], [0, 0xff], [0xff, 0xff], [0xff, 0]])
-
-        i.setBMPID(cbmp_id)
-
-        model.appendFaceType(i)
+    for i in range(0, 8):
+        testFaceTypes.append( COBJBuilder.FaceType() )
+        testFaceTypes[-1].setVertexColor(True, [31 * (8 - i), 0, 31 * i])
+        model.appendFaceType(testFaceTypes[-1])
 
     face = COBJBuilder.Primitive()
-    face.setTypeQuad([3, 2, 1, 0], [0, 0, 0, 0])
+    face.setTypeTriangle([2, 1, 0], [0, 0, 0])
     face.setTexture(False)
     face.setReflective(False)
     face.setFaceTypeIndex(0)
     model.appendPrimitive(face)
 
-    number_of_vertices = 4 # quad vertex count multipled by all known primitive types
+    for i in range(0, 8):
+        face = COBJBuilder.Primitive()
+        face.setTypeTriangle([3 + i, 12 + i, 4 + i], [0, 0, 0])
+        face.setTexture(False)
+        face.setReflective(False)
+        face.setFaceTypeIndex(1 + i)
+        model.appendPrimitive(face)
 
-    model.allocateVertexBuffers(128, number_of_vertices, 1, 0, 0, 0)
+    base_triangle_vertex_amount = 3
+    root_triangles_vertex_amount = 9
+    top_triangles_vertex_amount = 8
+    number_of_vertices = base_triangle_vertex_amount + root_triangles_vertex_amount + top_triangles_vertex_amount
 
-    for i in range(0, 128):
+    model.allocateVertexBuffers(256, number_of_vertices, 1, 0, 0, 0)
+
+    for i in range(0, 256):
         positionBuffer = model.getPositionBuffer(i)
 
-        positionBuffer.setValue(0, (-128, i, -128))
-        positionBuffer.setValue(1, ( 128, i, -128))
-        positionBuffer.setValue(2, ( 128, i,  128))
-        positionBuffer.setValue(3, (-128, i,  128))
+        positionBuffer.setValue(0, (-256, 64, 0))
+        positionBuffer.setValue(1, ( 256,  0, 0))
+        positionBuffer.setValue(2, ( 256, 64, 0))
+
+        for r in range(0, root_triangles_vertex_amount):
+            positionBuffer.setValue(base_triangle_vertex_amount + r, (-256 + 64 * r, 80, 0))
+
+        for r in range(0, top_triangles_vertex_amount):
+            level = 80
+
+            if ((1 << r) & i) != 0:
+                level = 256
+
+            positionBuffer.setValue(base_triangle_vertex_amount + root_triangles_vertex_amount + r, (-224 + 64 * r, level, 0))
 
         positionBuffer = model.getNormalBuffer(i)
         positionBuffer.setValue(0, (0, 0, 4096))
