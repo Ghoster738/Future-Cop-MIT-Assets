@@ -1,7 +1,7 @@
 import COBJBuilder
 import zlib
 
-def generateModel(cbmp_id: int):
+def generateModel():
     model = COBJBuilder.Model()
 
     model.setEnvironmentMapSemiTransparent(False)
@@ -64,12 +64,12 @@ def generateModel(cbmp_id: int):
     return model
 
 def generate():
-    generateModel(1).makeFile("animation.cobj", COBJBuilder.ModelFormat.WINDOWS)
+    generateModel().makeFile("animation.cobj", COBJBuilder.ModelFormat.WINDOWS)
 
 def test():
     result = True
 
-    crc32 = zlib.crc32(generateModel(1).makeResource(COBJBuilder.ModelFormat.WINDOWS))
+    crc32 = zlib.crc32(generateModel().makeResource(COBJBuilder.ModelFormat.WINDOWS))
 
     if crc32 != 0:
         result = False
