@@ -85,9 +85,9 @@ def test():
 
     crc32 = zlib.crc32(generateModel().makeResource(COBJBuilder.ModelFormat.WINDOWS))
 
-    if crc32 != 0:
+    if crc32 != 0xf250b466:
         result = False
-        print("failed with", hex(crc32), "expected", hex(0))
+        print("failed with", hex(crc32), "expected", hex(0xf250b466))
 
     return result
 
