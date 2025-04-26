@@ -117,7 +117,7 @@ The rest of this chunk comprises of only one star animation struct.
 ```c
 struct star_animation {
   uint8_t face_index; // 3DQL index to primative type star
-  uint8_t speed_factor; // Please see the 
+  uint8_t speed_factor; // Please see the "How does it work" section for the speed.
   uint8_t red_0;
   uint8_t green_0;
   uint8_t blue_0;
