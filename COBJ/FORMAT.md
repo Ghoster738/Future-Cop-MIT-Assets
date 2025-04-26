@@ -74,14 +74,14 @@ struct chunk_anmd_header {
 The rest of the chunk has a variable sized array of these elements.
 ```c
 struct animation_track {
-  uint8_t unk_8_0;
+  uint8_t next_track_index;
   uint8_t type; // 0 does not play any animations at all. 1-2 can play animations. 3 is the transformation track which only X1A's legs and head have.
   int8_t  unk_8_signed; // These are the values that appears 255(-1), 0, 1, 2
-  uint8_t unk_8_1;
+  uint8_t track_0_index;
   uint16_t from_frame;
   uint16_t to_frame;
-  uint8_t unk_8_2;
-  uint8_t unk_8_3;
+  uint8_t track_1_index;
+  uint8_t track_2_index;
   uint16_t un_bitfield; // Wild guess: Looks like a bitfield
   uint32_t speed_units;
 };
