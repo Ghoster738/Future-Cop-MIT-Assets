@@ -76,8 +76,8 @@ The rest of the chunk has a variable sized array of these elements.
 struct animation_track {
   uint8_t unk_8_0;
   uint8_t type; // 0 does not play any animations at all. 1-2 can play animations. 3 is the transformation track which only X1A's legs and head have.
+  int8_t  unk_8_signed; // These are the values that appears 255(-1), 0, 1, 2
   uint8_t unk_8_1;
-  uint8_t un_skip_frame; // Wild guess.
   uint16_t from_frame;
   uint16_t to_frame;
   uint8_t unk_8_2;
