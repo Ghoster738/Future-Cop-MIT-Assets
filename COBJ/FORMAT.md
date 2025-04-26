@@ -71,20 +71,33 @@ struct chunk_anmd_header {
 };
 ```
 
-The rest of the chunk has.
+The rest of the chunk has a variable sized array of these elements.
 ```c
 struct animation_track {
   uint8_t unk_8_0;
-  uint8_t un_speed;
+  uint8_t un_enum; // 1-2 seems to enable the animations. 3 seems to pause the animations for some reason.
   uint8_t unk_8_1;
   uint8_t un_skip_frame; // Wild guess.
   uint16_t from_frame;
   uint16_t to_frame;
   uint8_t unk_8_2;
   uint8_t unk_8_3;
-  uint16_t unk_16;
-  uint32_t unk_32;
+  uint16_t un_bitfield; // Wild guess: Looks like a bitfield
+  uint32_t speed_units;
 };
+```
+
+#### Decode Speed Per Frame Formula
+```c
+const float SPEED_UNIT_TO_SECOND = 0.00333f;
+
+float getFrameSpeed( uint32_t speed_units ) {
+ return SPEED_UNIT_TO_SECOND * speed_units;
+}
+
+float getTotalTime( uint16_t total_frame_amount, uint32_t speed_units ) {
+ return total_frame_amount * getFrameSpeed( speed_units );
+}
 ```
 
 ### 3DAL
