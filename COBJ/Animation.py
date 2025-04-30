@@ -1,7 +1,7 @@
 import COBJBuilder
 import zlib
 
-def generateModel( digit_amount : int, width : int = 256):
+def generateModel( digit_amount : int, frame_amount : int, width : int):
     color_difference = int(255 / digit_amount)
 
     base_digit_width = int((2 * width) / digit_amount)
@@ -55,9 +55,9 @@ def generateModel( digit_amount : int, width : int = 256):
         face.setFaceTypeIndex(1 + i)
         model.appendPrimitive(face)
 
-    model.allocateVertexBuffers(256, number_of_vertices, 1, 0, 0, 0)
+    model.allocateVertexBuffers(frame_amount, number_of_vertices, 1, 0, 0, 0)
 
-    for i in range(0, 256):
+    for i in range(0, frame_amount):
         positionBuffer = model.getPositionBuffer(i)
 
         positionBuffer.setValue(0, (-width, 64, 0))
@@ -83,12 +83,12 @@ def generateModel( digit_amount : int, width : int = 256):
     return model
 
 def generate():
-    generateModel(8).makeFile("animation.cobj", COBJBuilder.ModelFormat.WINDOWS)
+    generateModel(8, 256, 256).makeFile("animation.cobj", COBJBuilder.ModelFormat.WINDOWS)
 
 def test():
     result = True
 
-    crc32 = zlib.crc32(generateModel(8).makeResource(COBJBuilder.ModelFormat.WINDOWS))
+    crc32 = zlib.crc32(generateModel(8, 256, 256).makeResource(COBJBuilder.ModelFormat.WINDOWS))
 
     if crc32 != 0xf250b466:
         result = False
