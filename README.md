@@ -7,8 +7,6 @@ While I was working on Future Cop MIT Windows port, I myself got inconvenienced 
 These files can easily be in unit test code of Future Cop MIT as the assets' license of this repository would allow it.
 
 ## Rules
- * The obvious rule of this project is that there are no Future Cop Assets from the original game allowed. **Not even the demos of any version are allowed.**
- * To be extra careful, screenshots containing Future Cop Assets is also not allowed.
- * The files placed there should not have any data from original Future Cop assets
+ * No Future Cop Assets from the original game are allowed. **Not even the demos of any version are allowed.**
  * In addition to the above rule, no assets from other intellectual properties are not allowed.
  * No Generative AI content like Stable Diffusion or simular since they cannot be licensed. Fractals like the Mandelbrot Set are fine.
