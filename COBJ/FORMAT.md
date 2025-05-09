@@ -59,7 +59,7 @@ struct vector_2_byte {
 ```
 
 ### AnmD
-I do not know much about this chunk. However, it contains the animation track data.
+This chunk contains animation track data. *It is apparently optional.*
 
 #### Data
 The first thing that is read is this chunk.
@@ -71,20 +71,33 @@ struct chunk_anmd_header {
 };
 ```
 
-The rest of the chunk has.
+The rest of the chunk has a variable sized array of these elements.
 ```c
 struct animation_track {
-  uint8_t unk_8_0;
-  uint8_t un_speed;
-  uint8_t unk_8_1;
-  uint8_t un_skip_frame; // Wild guess.
+  uint8_t next_track_index; // When the track ends this is the track that gets played when the track is done.
+  uint8_t type; // 0 does not play any animations at all. 1-2 can play animations. 3 is the transformation track which only X1A's legs and head have.
+  int8_t  unk_8_signed; // These are the values that appears 255(-1), 0, 1, 2
+  uint8_t unk_8_unsigned; // I do not know that that does.
   uint16_t from_frame;
   uint16_t to_frame;
-  uint8_t unk_8_2;
-  uint8_t unk_8_3;
-  uint16_t unk_16;
-  uint32_t unk_32;
+  uint8_t track_0_index;
+  uint8_t track_1_index;
+  uint16_t un_enum; // Wild guess: Looks like a bitfield
+  uint32_t speed_units;
 };
+```
+
+#### Decode Speed Per Frame Formula
+```c
+const float SPEED_UNIT_TO_SECOND = 0.00333f;
+
+float getFrameSpeed( uint32_t speed_units ) {
+ return SPEED_UNIT_TO_SECOND * speed_units;
+}
+
+float getTotalTime( uint16_t total_frame_amount, uint32_t speed_units ) {
+ return total_frame_amount * getFrameSpeed( speed_units );
+}
 ```
 
 ### 3DAL
@@ -104,7 +117,7 @@ The rest of this chunk comprises of only one star animation struct.
 ```c
 struct star_animation {
   uint8_t face_index; // 3DQL index to primative type star
-  uint8_t speed_factor; // Please see the 
+  uint8_t speed_factor; // Please see the "How does it work" section for the speed.
   uint8_t red_0;
   uint8_t green_0;
   uint8_t blue_0;
