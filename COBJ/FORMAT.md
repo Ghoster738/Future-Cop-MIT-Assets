@@ -639,14 +639,14 @@ struct chunk_4dgi {
 #### Bitfield
 This is the bitfield that the chunk_4dgi stores.
 ```
-win/ps1 8 bitfield: art0,y0s0
-mac     8 bitfield: 0s0y,0tra
+win/ps1 8 bitfield: art0,p0s0
+mac     8 bitfield: 0s0p,0tra
 
 0 = Unused.
 a = Animated. 0 for static COBJ. 1 for Skin or Morph-Target COBJ.
 r = Reflections. 1 if you want the "reflections" for the COBJ model. Warning: If this value is set to 0 and you use "reflection" polygons then you might crash Future Cop.
 t = Semi-transparent reflections. 1 if you want all the reflections to be partially transparent. 0 if you want all the reflections to be transparent. You have to pick one or the other.
-y = This bit is always on. Purpose unknown.
+p = If on then the collisions happen normally. If off then the collisions with X1A pushes back X1A slighty.
 s = Skinned. 1 for skinned animation. 0 for either static or morph-target animations.
 ```
 
